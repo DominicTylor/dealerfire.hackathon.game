@@ -55,10 +55,16 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		super.preUpdate(time, delta);
 
 		switch (this._state) {
-			case 'live':
-				this._normalWorkingAnimation();
+			case 'live': {
+				if (this._task > 0) {
+					this._normalWorkingAnimation();
+				} else {
+					this._showMessage('notTask');
+				}
 
 				break;
+			}
+
 			case 'dead':
 				this._deadAnimation();
 
@@ -71,8 +77,9 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	}
 
 	_updateParam() {
-		let h = this._hunger;
-		let e = this._energy;
+		const h = this._hunger;
+		const e = this._energy;
+		const t = this._task;
 
 		if (h > 0 && e > 0) {
 			if (h > 0) {
@@ -87,8 +94,12 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 				this._energy = e - 10 / this._energyLossRate;
 			}
 
-			if (h < 20) {
+			if (e < 20) {
 				this._showMessage('energyLow');
+			}
+
+			if (t > 0) {
+				--this._task;
 			}
 		} else {
 			this._state = 'dead';
