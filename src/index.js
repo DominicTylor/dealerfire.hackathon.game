@@ -1,34 +1,25 @@
 import 'phaser';
+import Config from './config';
+import Controller from './scenes/Controller';
+import IntroScene from './scenes/IntroScene';
+import StartScene from './scenes/StartScene';
+import GameScene from './scenes/GameScene';
+import SuccessScene from './scenes/SuccessScene';
+import FailScene from './scenes/FailScene';
 
-var config = {
+const config = {
     type: Phaser.AUTO,
-    parent: 'phaser-example',
-    width: 600,
-    height: 800,
-    scene: {
-        preload: preload,
-        create: create
-    }
+    parent: Config.APP_ID,
+    width: Config.WIDTH,
+    height: Config.HEIGHT,
+    scene: [
+        Controller,
+        IntroScene,
+        StartScene,
+        GameScene,
+        SuccessScene,
+        FailScene
+    ]
 };
 
-var game = new Phaser.Game(config);
-
-function preload ()
-{
-    this.load.image('logo', 'assets/logo.png');
-}
-
-function create ()
-{
-    var logo = this.add.image(400, 150, 'logo');
-
-    this.tweens.add({
-        targets: logo,
-        y: 450,
-        duration: 2000,
-        ease: 'Power2',
-        yoyo: true,
-        loop: -1
-    });
-
-}
+const game = new Phaser.Game(config);
