@@ -4,100 +4,100 @@
 			"frame": {
 				"x": 1,
 				"y": 1,
-				"w": 881,
-				"h": 1742
+				"w": 195,
+				"h": 499
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 881,
-				"h": 1742
+				"w": 195,
+				"h": 499
 			},
 			"sourceSize": {
-				"w": 881,
-				"h": 1742
-			}
-		},
-		"back_with_face": {
-			"frame": {
-				"x": 884,
-				"y": 1,
-				"w": 671,
-				"h": 1737
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 671,
-				"h": 1737
-			},
-			"sourceSize": {
-				"w": 671,
-				"h": 1737
+				"w": 195,
+				"h": 499
 			}
 		},
 		"front": {
 			"frame": {
-				"x": 1557,
+				"x": 198,
 				"y": 1,
-				"w": 899,
-				"h": 1783
+				"w": 184,
+				"h": 483
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 899,
-				"h": 1783
+				"w": 184,
+				"h": 483
 			},
 			"sourceSize": {
-				"w": 899,
-				"h": 1783
+				"w": 184,
+				"h": 483
+			}
+		},
+		"left": {
+			"frame": {
+				"x": 384,
+				"y": 1,
+				"w": 155,
+				"h": 495
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 155,
+				"h": 495
+			},
+			"sourceSize": {
+				"w": 155,
+				"h": 495
 			}
 		},
 		"right": {
 			"frame": {
-				"x": 2458,
+				"x": 541,
 				"y": 1,
-				"w": 559,
-				"h": 1987
+				"w": 155,
+				"h": 495
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 559,
-				"h": 1987
+				"w": 155,
+				"h": 495
 			},
 			"sourceSize": {
-				"w": 559,
-				"h": 1987
+				"w": 155,
+				"h": 495
 			}
 		},
 		"smile": {
 			"frame": {
-				"x": 3019,
+				"x": 698,
 				"y": 1,
-				"w": 891,
-				"h": 1764
+				"w": 195,
+				"h": 483
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 891,
-				"h": 1764
+				"w": 195,
+				"h": 483
 			},
 			"sourceSize": {
-				"w": 891,
-				"h": 1764
+				"w": 195,
+				"h": 483
 			}
 		}
 	},
@@ -107,8 +107,8 @@
 		"image": "spritesheet.png",
 		"format": "RGBA8888",
 		"size": {
-			"w": 3911,
-			"h": 1989
+			"w": 894,
+			"h": 501
 		},
 		"scale": "1"
 	}

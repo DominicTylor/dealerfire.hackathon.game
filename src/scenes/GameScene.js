@@ -2,7 +2,7 @@ import 'phaser';
 import Worker from '../actors/worker';
 import Table from '../actors/table';
 import Manager from '../actors/manager';
-import Stuff from '../actors/stuff';
+import Hamburger from '../actors/hamburger';
 
 const {
     Text,
@@ -63,7 +63,7 @@ class View extends Container {
         this.add(bg);
 
         const manager = this.manager = new Manager(this.scene, 300, 400);
-        const stuff = new Stuff(this.scene, 200, 400);
+        const stuff = new Hamburger(this.scene, 200, 400);
 
         this.add(manager.sprite);
         this.add(stuff.sprite);
@@ -72,7 +72,7 @@ class View extends Container {
         this.createTables();
 
         this.scene.physics.add.collider(manager.sprite, stuff.sprite, () => {
-            let burger = new Stuff(this.scene, manager.sprite.x, manager.sprite.y);
+            let burger = new Hamburger(this.scene, manager.sprite.x, manager.sprite.y);
 
             if (!manager.pickup(manager, burger)) {
                 burger.destroy();
