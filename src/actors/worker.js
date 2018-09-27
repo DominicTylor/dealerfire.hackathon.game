@@ -78,7 +78,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 				break;
 		}
 
-		this._loopTime = this._loopTime > 30 ? 0 : this._loopTime + 1;
+		this._loopTime = this._loopTime > 300 ? 0 : this._loopTime + 1;
 	}
 
 	_updateParam() {
@@ -112,11 +112,11 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	}
 
 	_normalWorkingAnimation() {
-		if (!(this._loopTime % 10)) {
+		if (!(this._loopTime % 20)) {
 			this.setY(this._tempY === this.y ? this.y - 2 : this._tempY);
 		}
 
-		if (!(this._loopTime % 15)) {
+		if (!(this._loopTime % 30)) {
 			let side = this._scaleSide;
 			let angle = this.angle;
 

@@ -95,7 +95,7 @@ class View extends Container {
 
         let workers = [
             {
-                x: 100,
+                x: 110,
                 y: 250,
                 spriteName: 'worker1',
                 width: 50,
@@ -106,7 +106,7 @@ class View extends Container {
                 }
             },
             {
-                x: 465,
+                x: 500,
                 y: 250,
                 spriteName: 'worker2',
                 width: 50,
@@ -117,19 +117,19 @@ class View extends Container {
                 }
             },
             {
-                x: 100,
-                y: 390,
+                x: 110,
+                y: 400,
                 spriteName: 'worker3',
                 width: 50,
-                height: 130,
+                height: 110,
                 characteristics: {
                     foodLossRate: 300,
                     energyLossRate: 800
                 }
             },
             {
-                x: 465,
-                y: 372,
+                x: 500,
+                y: 390,
                 spriteName: 'worker4',
                 width: 50,
                 height: 130,
@@ -159,22 +159,22 @@ class View extends Container {
         const tables = [
             {
                 x: 100,
-                y: 274,
+                y: 279,
                 spriteName: 'table1'
             },
             {
                 x: 500,
-                y: 280,
+                y: 282,
                 spriteName: 'table2'
             },
             {
                 x: 100,
-                y: 404,
+                y: 430,
                 spriteName: 'table3'
             },
             {
-                x: 480,
-                y: 404,
+                x: 500,
+                y: 425,
                 spriteName: 'table4'
             }
         ];
