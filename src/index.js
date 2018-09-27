@@ -1,18 +1,27 @@
 import 'phaser';
-import Worker from './actors/worker';
-import Table from './actors/table';
+import Config from './config';
+import Controller from './scenes/Controller';
+import IntroScene from './scenes/IntroScene';
+import StartScene from './scenes/StartScene';
+import GameScene from './scenes/GameScene';
+import SuccessScene from './scenes/SuccessScene';
+import FailScene from './scenes/FailScene';
 import './scss/style.scss';
 
 const wrapper = document.querySelector('.wrapper');
 const config = {
-	type: Phaser.AUTO,
+    type: Phaser.AUTO,
     parent: wrapper,
-    width: 600,
-    height: 800,
-    scene: {
-        preload: preload,
-        create: create
-    },
+    width: Config.WIDTH,
+    height: Config.HEIGHT,
+    scene: [
+        Controller,
+        IntroScene,
+        StartScene,
+        GameScene,
+        SuccessScene,
+        FailScene
+    ],
 	fps: {
 		target: 30
 	}
