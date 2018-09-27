@@ -40,7 +40,6 @@ export default class GameScene extends Phaser.Scene {
         console.log('Game', 'create');
 
         this.view = new View(this);
-
         this.children.add(this.view);
 
         // TODO
@@ -50,8 +49,8 @@ export default class GameScene extends Phaser.Scene {
         // }, 2000);
     }
 
-    update() {
-        this.view.update();
+    update(){
+	    this.view.update();
     }
 }
 
@@ -86,6 +85,12 @@ class View extends Container {
     update() {
         this.manager.update();
     }
+
+	update(){
+		this.list.forEach(item => {
+		    item.update();
+        });
+	}
 
     createWorkers() {
         const scene = this.scene;
