@@ -5,4 +5,9 @@ export default class Stuff {
 		this.sprite.body.immovable = true;
 		this.sprite.setScale(0.1, 0.1);
 	}
+
+	destroy() {
+		this.sprite.destroy();
+		this.value = 0;
+	}
 }

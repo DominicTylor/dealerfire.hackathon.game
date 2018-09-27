@@ -70,14 +70,15 @@ export default class Manager {
 	pickup(me, stuff) {
 		if (this.backpack === null) {
 			this.backpack = stuff;
-		} else {
-			console.log('Something is in the backpack', this.backpack);
+
+			return true;
 		}
+
+		return false;
 	}
 
 	interact(me, slave) {
-		if (this.backpack !== null) {
-			slave.consume(this.backpack);
+		if (this.backpack !== null && slave.consume(this.backpack)) {
 			this.backpack = null;
 		}
 
@@ -87,7 +88,9 @@ export default class Manager {
 	}
 
 	consume(stuff) {
-		console.log('Consumed', stuff);
+		stuff.destroy();
+
+		return true;
 	}
 
 	update() {

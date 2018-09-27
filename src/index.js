@@ -1,26 +1,43 @@
 import 'phaser';
+import Config from './config';
+import Controller from './scenes/Controller';
+import IntroScene from './scenes/IntroScene';
+import StartScene from './scenes/StartScene';
+import GameScene from './scenes/GameScene';
+import SuccessScene from './scenes/SuccessScene';
+import FailScene from './scenes/FailScene';
+import './scss/style.scss';
 import Manager from './actors/manager';
 import Stuff from './actors/stuff';
 
-var config = {
+const wrapper = document.querySelector('.wrapper');
+const config = {
     type: Phaser.AUTO,
-    parent: 'phaser-example',
-    width: 600,
-    height: 800,
+    parent: wrapper,
+    width: Config.WIDTH,
+    height: Config.HEIGHT,
     physics: {
         default: 'arcade',
         arcade: {
             debug: true
         }
     },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    }
+    scene: [
+        {
+            preload: preload,
+            create: create,
+            update: update
+        },
+        Controller,
+        IntroScene,
+        StartScene,
+        GameScene,
+        SuccessScene,
+        FailScene
+    ]
 };
 
-var game = new Phaser.Game(config);
+const game = new Phaser.Game(config);
 
 let manager;
 let slave;
@@ -48,11 +65,13 @@ function create ()
     let stuff = new Stuff(this, 300, 300);
     let logo = this.add.image(400, 150, 'logo');
 
-    this.physics.add.collider(manager.sprite, slave.sprite, (m, s) => manager.interact(manager, slave));
-    this.physics.add.collider(manager.sprite, stuff.sprite, (m, s) => {
-        let burger = new Stuff(me, manager.body.x, manager.body.y);
+    this.physics.add.collider(manager.sprite, slave.sprite, () => manager.interact(manager, slave));
+    this.physics.add.collider(manager.sprite, stuff.sprite, () => {
+        let burger = new Stuff(me, manager.sprite.x, manager.sprite.y);
 
-        manager.pickup(manager, burger);
+        if (!manager.pickup(manager, burger)) {
+            burger.destroy();
+        };
     });
 
     slave.sprite.body.immovable = true;
