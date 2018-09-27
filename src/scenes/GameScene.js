@@ -84,13 +84,10 @@ class View extends Container {
 
     update() {
         this.manager.update();
-    }
-
-	update(){
-		this.list.forEach(item => {
-		    item.update();
+        this.list.forEach(item => {
+            item.update();
         });
-	}
+    }
 
     createWorkers() {
         const scene = this.scene;
