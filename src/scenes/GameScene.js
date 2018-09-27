@@ -32,6 +32,7 @@ export default class GameScene extends Phaser.Scene {
 
         const view = new View(this);
 
+        this.view = view;
         this.children.add(view);
 
         // TODO
@@ -39,6 +40,10 @@ export default class GameScene extends Phaser.Scene {
         //     this.events.emit('onSceneEvent', 'Game', 'transition');
         //     this.scene.start(Math.random() - 0.5 > 0 ? 'Success' : 'Fail');
         // }, 2000);
+    }
+
+    update(){
+	    this.view.update();
     }
 }
 
@@ -69,6 +74,12 @@ class View extends Container {
         this.createWorkers();
         this.createTables();
     }
+
+	update(){
+		this.list.forEach(item => {
+		    item.update();
+        });
+	}
 
     createWorkers() {
         const scene = this.scene;
