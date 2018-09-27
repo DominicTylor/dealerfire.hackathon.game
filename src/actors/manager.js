@@ -56,7 +56,7 @@ export default class Manager {
 		});
 
 		this.sprite.setScale(0.1, 0.1);
-		this.sprite.anims.play('walk_left');
+		this.sprite.anims.play('walk_down');
 	}
 
 	set speed(speed) {

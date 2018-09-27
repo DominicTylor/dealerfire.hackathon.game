@@ -22,8 +22,8 @@ const config = {
         }
     },
     scene: [
-		ManagerScene,
         Controller,
+		ManagerScene,
         IntroScene,
         StartScene,
         GameScene,

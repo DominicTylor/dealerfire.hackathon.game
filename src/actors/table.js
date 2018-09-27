@@ -7,5 +7,12 @@ export default class Table extends Phaser.GameObjects.Sprite {
 		this.setTexture(spriteName);
 		this.setPosition(x, y);
 		this.setDisplaySize(150, 90);
+
+        scene.physics.add.existing(this);
+        this.body.immovable = true;
+	}
+
+	consume() {
+
 	}
 }
