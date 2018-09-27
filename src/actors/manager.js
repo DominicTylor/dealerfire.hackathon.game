@@ -10,7 +10,7 @@ export default class Manager {
 			key: 'walk_left',
 			frames: [{
 				key: 'manager',
-				frame: 'right',
+				frame: 'left',
 				duration: 5
 			}],
 			frameRate: 5,
@@ -55,8 +55,11 @@ export default class Manager {
 			repeat: -1
 		});
 
-		this.sprite.setScale(0.1, 0.1);
+		this.sprite.setScale(0.3, 0.3);
 		this.sprite.anims.play('walk_left');
+
+		this.sprite.body.setOffset(50, 380);
+		this.sprite.body.setSize(150, 150, false);
 	}
 
 	set speed(speed) {
@@ -110,12 +113,10 @@ export default class Manager {
 		if (this.keys.left.isDown) {
 			this.sprite.body.setVelocityX(-this.speed);
 			this.sprite.anims.play('walk_left', true);
-			this.sprite.flipX = true;
 			this.moving = true;
 		} else if (this.keys.right.isDown) {
 			this.sprite.body.setVelocityX(this.speed);
 			this.sprite.anims.play('walk_right', true);
-			this.sprite.flipX = false;
 			this.moving = true;
 		}
 
