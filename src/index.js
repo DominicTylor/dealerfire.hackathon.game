@@ -3,8 +3,8 @@ import 'phaser';
 var config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
-    width: 800,
-    height: 600,
+    width: 600,
+    height: 800,
     scene: {
         preload: preload,
         create: create
