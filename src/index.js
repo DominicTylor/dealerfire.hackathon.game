@@ -1,8 +1,8 @@
 import 'phaser';
 
-var config = {
+const config = {
     type: Phaser.AUTO,
-    parent: 'phaser-example',
+    parent: 'Temuraz tycoon',
     width: 600,
     height: 800,
     scene: {
@@ -11,16 +11,14 @@ var config = {
     }
 };
 
-var game = new Phaser.Game(config);
+const game = new Phaser.Game(config);
 
-function preload ()
-{
+function preload () {
     this.load.image('logo', 'assets/logo.png');
 }
 
-function create ()
-{
-    var logo = this.add.image(400, 150, 'logo');
+function create () {
+    const logo = this.add.image(400, 150, 'logo');
 
     this.tweens.add({
         targets: logo,
@@ -30,5 +28,4 @@ function create ()
         yoyo: true,
         loop: -1
     });
-
 }
