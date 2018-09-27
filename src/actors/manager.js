@@ -56,7 +56,7 @@ export default class Manager {
 		});
 
 		this.sprite.setScale(0.3, 0.3);
-		this.sprite.anims.play('walk_left');
+		this.sprite.anims.play('walk_down');
 
 		this.sprite.body.setOffset(50, 380);
 		this.sprite.body.setSize(150, 150, false);

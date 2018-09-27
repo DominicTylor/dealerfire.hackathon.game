@@ -26,9 +26,14 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		this._foodLossRate = foodLossRate;
 		this._energyLossRate = energyLossRate;
 		this._state = 'live';
+
+        // scene.physics.add.existing(this);
+        // this.body.immovable = true;
 	}
 
 	consume({ type, value }) {
+		console.log(type, value)
+
 		switch(type) {
 			case 'food':
 				this._setHungry(value);
