@@ -1,4 +1,5 @@
 import 'phaser';
+import WorkPlace from '../actors/work-place';
 import Worker from '../actors/worker';
 import Table from '../actors/table';
 import Manager from '../actors/manager';
@@ -49,8 +50,8 @@ export default class GameScene extends Phaser.Scene {
         // }, 2000);
     }
 
-    update(){
-	    this.view.update();
+    update() {
+        this.view.update();
     }
 }
 
@@ -68,8 +69,9 @@ class View extends Container {
         this.add(manager.sprite);
         this.add(stuff.sprite);
 
-        this.createWorkers();
-        this.createTables();
+        this.createWorkPlaces();
+        // this.createWorkers();
+        // this.createTables();
 
         this.scene.physics.add.collider(manager.sprite, stuff.sprite, () => {
             let burger = new Hamburger(this.scene, manager.sprite.x, manager.sprite.y);
@@ -86,6 +88,100 @@ class View extends Container {
         this.manager.update();
         this.list.forEach(item => {
             item.update();
+        });
+    }
+
+    createWorkPlaces() {
+        const scene = this.scene;
+        const manager = this.manager;
+        const configs = [
+            {
+                x: 100,
+                y: 248,
+                worker: {
+                    x: 10,
+                    y: -30,
+                    spriteName: 'worker1',
+                    width: 50,
+                    height: 130,
+                    characteristics: {
+                        foodLossRate: 700,
+                        energyLossRate: 400
+                    }
+                },
+
+                table: {
+                    spriteName: 'table1'
+                }
+            },
+            {
+                x: 500,
+                y: 252,
+                worker: {
+                    x: 6,
+                    y: -30,
+                    spriteName: 'worker2',
+                    width: 50,
+                    height: 130,
+                    characteristics: {
+                        foodLossRate: 500,
+                        energyLossRate: 600
+                    }
+                },
+
+                table: {
+                    spriteName: 'table2'
+                }
+            },
+            {
+                x: 100,
+                y: 420,
+                worker: {
+                    x: 10,
+                    y: -20,
+                    spriteName: 'worker3',
+                    width: 50,
+                    height: 110,
+                    characteristics: {
+                        foodLossRate: 300,
+                        energyLossRate: 800
+                    }
+                },
+
+                table: {
+                    spriteName: 'table3'
+                }
+            },
+            {
+                x: 500,
+                y: 416,
+                worker: {
+                    y: -30,
+                    spriteName: 'worker4',
+                    width: 50,
+                    height: 130,
+                    characteristics: {
+                        foodLossRate: 900,
+                        energyLossRate: 200
+                    }
+                },
+
+                table: {
+                    spriteName: 'table4'
+                }
+            }
+        ];
+
+        configs.forEach((config) => {
+            config.y += 90;
+
+            const workPlace = new WorkPlace(scene, config);
+
+            this.add(workPlace);
+
+            scene.physics.add.collider(manager.sprite, workPlace.table, () => {
+                manager.interact(manager, workPlace);
+            });
         });
     }
 
