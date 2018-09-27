@@ -22,7 +22,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		this._loopTime = 0;
 		this._hunger = 100;
 		this._energy = 100;
-		this._task = 0;
+		this._task = 10000;
 		this._foodLossRate = foodLossRate;
 		this._energyLossRate = energyLossRate;
 		this._state = 'live';
@@ -51,7 +51,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		}
 	}
 
-	preUpdate(time, delta) {
+	update(time, delta) {
 		super.preUpdate(time, delta);
 
 		switch (this._state) {
@@ -62,6 +62,8 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 					this._showMessage('notTask');
 				}
 
+				this._updateParam();
+
 				break;
 			}
 
@@ -70,8 +72,6 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 
 				break;
 		}
-
-		this._updateParam();
 
 		this._loopTime = this._loopTime > 30 ? 0 : this._loopTime + 1;
 	}
@@ -84,18 +84,18 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		if (h > 0 && e > 0) {
 			if (h > 0) {
 				this._hunger = h - 20 / this._foodLossRate;
-			}
 
-			if (h < 20) {
-				this._showMessage('foodLow');
+				if (h < 20) {
+					this._showMessage('foodLow');
+				}
 			}
 
 			if (e > 0) {
 				this._energy = e - 10 / this._energyLossRate;
-			}
 
-			if (e < 20) {
-				this._showMessage('energyLow');
+				if (e < 20) {
+					this._showMessage('energyLow');
+				}
 			}
 
 			if (t > 0) {
