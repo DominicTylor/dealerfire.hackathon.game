@@ -38,6 +38,8 @@ export default class GameScene extends Phaser.Scene {
     preload() {
         this.load.image('bg', 'assets/office.png');
         this.load.image('hamburger', 'assets/hamburger.png');
+	    this.load.image('message1', 'assets/messages/message1.png');
+	    this.load.image('message2', 'assets/messages/message2.png');
         this.load.image('coffee', 'assets/coffee.png');
         this.load.image('energy-drink', 'assets/energy.png');
         this.load.image('transparent', 'assets/transparent_tile.png');
@@ -159,6 +161,16 @@ class View extends Container {
                     }
                 },
 
+	            message: {
+		            x: -46,
+		            y: -128,
+		            spriteName: 'message1',
+		            text: {
+			            x: 0,
+			            y: -11
+		            }
+	            },
+
                 table: {
                     spriteName: 'table1'
                 }
@@ -177,6 +189,16 @@ class View extends Container {
                         energyLossRate: 600
                     }
                 },
+
+	            message: {
+		            x: 54,
+		            y: -130,
+		            spriteName: 'message2',
+		            text: {
+			            x: 2,
+			            y: -11
+		            }
+	            },
 
                 table: {
                     spriteName: 'table2'
@@ -197,6 +219,16 @@ class View extends Container {
                     }
                 },
 
+	            message: {
+		            x: -42,
+		            y: -110,
+		            spriteName: 'message1',
+		            text: {
+			            x: 0,
+			            y: -11
+		            }
+	            },
+
                 table: {
                     spriteName: 'table3'
                 }
@@ -212,6 +244,16 @@ class View extends Container {
                     characteristics: {
                         foodLossRate: 900,
                         energyLossRate: 200
+                    }
+                },
+
+                message: {
+                    x: 55,
+                    y: -128,
+	                spriteName: 'message2',
+                    text: {
+                        x: 2,
+                        y: -11
                     }
                 },
 
