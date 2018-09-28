@@ -36,17 +36,20 @@ export default class Worker extends Phaser.GameObjects.Sprite {
             switch (type) {
                 case 'food':
                     this._setFood(value);
-
+                    this.playSound('eat');
                     return true;
+
                 case 'coffee':
                 case 'energyDrink':
                     this._setEnergy(value);
-
+                    this.playSound('drink');
                     return true;
                 case 'task': {
                     if (this._task && !this._task.complete) {
                         return false;
                     }
+
+                    this.playSound('get');
 
                     this._setTask(stuff);
 
@@ -56,6 +59,10 @@ export default class Worker extends Phaser.GameObjects.Sprite {
         }
 
         return false;
+    }
+
+    playSound(key) {
+        this.scene.sound.add(key).play();
     }
 
     update() {
@@ -150,6 +157,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
             this._deadPosition--;
             this.setY(this.y + 1);
         } else {
+            this.playSound('rip');
             this._sendWorkerDead();
             this._state = 'dead';
         }

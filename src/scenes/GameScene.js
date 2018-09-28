@@ -57,6 +57,15 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('worker3', 'assets/workers/worker3.png');
         this.load.image('worker4', 'assets/workers/worker4.png');
 
+        this.load.audio('fail', 'assets/audio/fail.mp3');
+        this.load.audio('win', 'assets/audio/win.mp3');
+        this.load.audio('intro', 'assets/audio/intro.mp3');
+        this.load.audio('game', 'assets/audio/game.mp3');
+        this.load.audio('get', 'assets/audio/get.mp3');
+        this.load.audio('drink', 'assets/audio/drink.mp3');
+        this.load.audio('rip', 'assets/audio/rip.mp3');
+        this.load.audio('eat', 'assets/audio/eat.mp3');
+
         this.load.atlas({
             key: 'manager',
             textureURL: 'assets/manager/manager.png',
@@ -146,8 +155,17 @@ class View extends Container {
         this.tasksText.setPosition(515, 45);
 
         this.shellContainer.add([this.dayText, this.pointsText, this.tasksText]);
-
         this.tFactory = tFactory;
+
+        const music = this.music = this.scene.sound.add('game');
+
+        music.play('', {volume: 0.1, loop: -1});
+    }
+
+    destroy() {
+        this.music.stop();
+
+        super.destroy();
     }
 
     update() {
