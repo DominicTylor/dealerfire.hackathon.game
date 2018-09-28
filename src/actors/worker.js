@@ -86,17 +86,17 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 
 		if (f > 0 && e > 0) {
 			if (f > 0) {
-				this._food = f - 20 / this._foodLossRate;
+				this._food = f - 8 / this._foodLossRate;
 
-				if (f < 20) {
+				if (f < 50) {
 					this._showMessage('foodLow');
 				}
 			}
 
 			if (e > 0) {
-				this._energy = e - 10 / this._energyLossRate;
+				this._energy = e - 4 / this._energyLossRate;
 
-				if (e < 20) {
+				if (e < 50) {
 					this._showMessage('energyLow');
 				}
 			}
@@ -171,6 +171,6 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	}
 
 	_sendWorkerDead() {
-		this.scene.events.emit('onSceneEvent', 'workerDead');
+		this.scene.events.emit('onSceneEvent', 'workerDead', this._spriteName);
 	}
 }
