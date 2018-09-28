@@ -5,19 +5,6 @@ export default class FailScene extends Phaser.Scene {
         super('Fail');
     }
 
-    preload() {
-        this.load.atlas({
-            key: 'sleeping',
-            textureURL: 'assets/manager/sleeping.png',
-            atlasURL: 'assets/manager/sleeping.json'
-        });
-        this.load.atlas({
-            key: 'trash',
-            textureURL: 'assets/manager/trash_can.png',
-            atlasURL: 'assets/manager/trash_can.json'
-        });
-    }
-
     create() {
         this.view = new View(this);
 

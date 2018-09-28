@@ -5,14 +5,6 @@ export default class SuccessScene extends Phaser.Scene {
         super('Success');
     }
 
-    preload() {
-        this.load.atlas({
-            key: 'sleeping',
-            textureURL: 'assets/manager/sleeping.png',
-            atlasURL: 'assets/manager/sleeping.json'
-        });
-    }
-
     create() {
         this.view = new View(this);
 

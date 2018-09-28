@@ -1,4 +1,5 @@
 import 'phaser';
+import Config from '../config';
 
 export default class StartScene extends Phaser.Scene {
     constructor() {
@@ -42,6 +43,17 @@ export default class StartScene extends Phaser.Scene {
             textureURL: 'assets/manager/manager.png',
             atlasURL: 'assets/manager/manager.json'
         });
+
+        this.load.atlas({
+            key: 'sleeping',
+            textureURL: 'assets/manager/sleeping.png',
+            atlasURL: 'assets/manager/sleeping.json'
+        });
+        this.load.atlas({
+            key: 'trash',
+            textureURL: 'assets/manager/trash_can.png',
+            atlasURL: 'assets/manager/trash_can.json'
+        });
     }
 
     create() {
@@ -50,6 +62,9 @@ export default class StartScene extends Phaser.Scene {
         this.children.add(this.view);
 
         this.input.keyboard.on('keyup', this.keyup, this);
+
+        //4test
+        window.cfg = Config;
     }
 
     keyup(e) {
