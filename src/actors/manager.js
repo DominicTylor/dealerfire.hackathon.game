@@ -1,3 +1,5 @@
+import Stuff from './stuff';
+
 export default class Manager {
 	constructor(scene, x, y) {
 		this._speed = 100;
@@ -58,8 +60,8 @@ export default class Manager {
 		this.sprite.setScale(0.3, 0.3);
 		this.sprite.anims.play('walk_down');
 
-		this.sprite.body.setOffset(50, 380);
-		this.sprite.body.setSize(150, 150, false);
+		this.sprite.body.setOffset(15, 400);
+		this.sprite.body.setSize(150, 100, false);
 	}
 
 	set speed(speed) {
@@ -82,7 +84,7 @@ export default class Manager {
 
 	interact(me, slave) {
 		if (this.backpack !== null && slave.consume(this.backpack)) {
-			this.backpack = null;
+			this.destroyBackpackItem();
 		}
 
 		if (slave instanceof Manager) {
@@ -94,6 +96,13 @@ export default class Manager {
 		stuff.destroy();
 
 		return true;
+	}
+
+	destroyBackpackItem() {
+		if (this.backpack && this.backpack instanceof Stuff) {
+			this.backpack.destroy();
+			this.backpack = null;
+		}
 	}
 
 	update() {
@@ -125,7 +134,7 @@ export default class Manager {
 		}
 
 		if (this.keys.space.isDown) {
-			this.backpack = null;
+			this.destroyBackpackItem();
 		}
 
 		if (this.backpack !== null) {

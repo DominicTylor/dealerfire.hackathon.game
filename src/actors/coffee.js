@@ -8,6 +8,5 @@ export default class Coffee extends Stuff {
 		this.value = 25;
 		this.sprite = scene.physics.add.sprite(x, y, 'coffee');
 		this.sprite.body.immovable = true;
-		this.sprite.setScale(0.1, 0.1);
 	}
 }

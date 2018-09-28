@@ -10,10 +10,6 @@ export default class IntroScene extends Phaser.Scene {
 
     preload() {
         console.log('Intro', 'preload');
-
-        this.load.image(
-            'logo',
-            'assets/logo.png');
     }
 
     create() {
@@ -45,19 +41,10 @@ class View extends Phaser.GameObjects.Container {
         );
         this.add(text);
 
-        const image = new Phaser.GameObjects.Image(
-            this.scene,
-            0, 0,
-            'logo'
-        );
-        this.add(image);
-
-        image.setPosition(
+        text.setOrigin(0.5);
+        text.setPosition(
             this.scene.game.config.width >> 1,
             this.scene.game.config.height >> 1
         );
-
-        text.setOrigin(0.5);
-        text.setPosition(image.x, image.y - (image.height >> 1));
     }
 }

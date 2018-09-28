@@ -3,13 +3,32 @@ import WorkPlace from '../actors/work-place';
 import Worker from '../actors/worker';
 import Table from '../actors/table';
 import Manager from '../actors/manager';
-import Hamburger from '../actors/hamburger';
+import HamburgerFactory from '../actors/hamburger-factory';
+import EnergyDrinkFactory from '../actors/energy-drink-factory';
+import CoffeeFactory from '../actors/coffee-factory';
 
 const {
     Text,
     Image,
     Container
 } = Phaser.GameObjects;
+
+const geoData = [
+    [0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 2], [9, 2],[10, 2], [11, 2], [12, 2], [13, 2], [14, 2],
+    [0, 4], [1, 4], [4, 4], [5, 4], [9, 4], [10, 4], [13, 4], [14, 4],
+    [0, 5], [1, 5], [13, 5], [14, 5],
+    [0, 6], [1, 6], [13, 6], [14, 6],
+    [0, 7], [1, 7], [2, 7], [3, 7], [4, 7], [5, 7], [9, 7], [10, 7], [11, 7], [12, 7], [13, 7], [14, 7],
+    [0, 8], [1, 8], [13, 8], [14, 8],
+    [0, 9], [1, 9], [2, 9], [3, 9], [11, 9], [12, 9], [13, 9], [14, 9],
+    [0, 10], [1, 10], [2, 10], [3, 10], [4, 10], [5, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [14, 10],
+    [0, 11], [1, 11], [2, 11], [3, 11], [4, 11], [5, 11], [9, 11], [10, 11], [11, 11], [12, 11],[13, 11], [14, 11],
+    [0, 12], [14, 12],
+    [0, 13], [14, 13],
+    [0, 14], [1, 14], [2, 14], [3, 14], [4, 14], [5, 14], [9, 14], [10, 14], [11, 14], [12, 14],[13, 14], [14, 14],
+    [0, 15], [1, 15], [2, 15], [3, 15], [4, 15], [5, 15], [9, 15], [10, 15], [11, 15], [12, 15],[13, 15], [14, 15],
+    [0, 16], [1, 16], [2, 16], [3, 16], [4, 16], [5, 16], [6, 16], [7, 16], [8, 16], [9, 16], [10, 16], [11, 16], [12, 16],[13, 16], [14, 16],
+];
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -21,6 +40,9 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('hamburger', 'assets/hamburger.png');
 	    this.load.image('message1', 'assets/messages/message1.png');
 	    this.load.image('message2', 'assets/messages/message2.png');
+        this.load.image('coffee', 'assets/coffee.png');
+        this.load.image('energy-drink', 'assets/energy.png');
+        this.load.image('transparent', 'assets/transparent_tile.png');
 
         this.load.image('table4', 'assets/office/table1.png');
         this.load.image('table2', 'assets/office/table2.png');
@@ -66,20 +88,22 @@ class View extends Container {
         this.add(bg);
 
         const manager = this.manager = new Manager(this.scene, 300, 400);
-        const stuff = new Hamburger(this.scene, 200, 400);
+        const hFactory = new HamburgerFactory(this.scene, 65, 125);
+        const eFactory = new EnergyDrinkFactory(this.scene, 245, 125);
+        const cFactory = new CoffeeFactory(this.scene, 425, 125);
 
         this.add(manager.sprite);
-        this.add(stuff.sprite);
 
         this.createWorkPlaces();
 
-        this.scene.physics.add.collider(manager.sprite, stuff.sprite, () => {
-            let burger = new Hamburger(this.scene, manager.sprite.x, manager.sprite.y);
+        this.scene.physics.add.collider(manager.sprite, hFactory.sprite, () => this.collideFactory(manager, hFactory));
+        this.scene.physics.add.collider(manager.sprite, eFactory.sprite, () => this.collideFactory(manager, eFactory));
+        this.scene.physics.add.collider(manager.sprite, cFactory.sprite, () => this.collideFactory(manager, cFactory));
 
-            if (!manager.pickup(manager, burger)) {
-                burger.destroy();
-            }
-        });
+        let {map, layer} = this.addMapGeo(this.scene);
+
+        layer.setCollision(0);
+        this.scene.physics.add.collider(manager.sprite, layer);
 
         manager.sprite.body.setCollideWorldBounds(true);
     }
@@ -89,6 +113,39 @@ class View extends Container {
         this.list.forEach(item => {
             item.update();
         });
+    }
+
+    addMapGeo(scene) {
+        let map = scene.make.tilemap({
+            tileWidth: 40,
+            tileHeight: 40,
+            width: 600,
+            height: 800
+        });
+
+        let tileset = map.addTilesetImage('transparent', null, 40, 40, 1, 1);
+        let layer = map.createBlankDynamicLayer('Layer 1', tileset);
+
+        geoData.forEach((tile) => {
+            layer.putTileAt(0, tile[0], tile[1]);
+        });
+
+        layer.setActive(true);
+
+        map.setLayer(layer);
+
+        return {
+            map,
+            layer
+        };
+    }
+
+    collideFactory(manager, factory) {
+        let product = factory.produce(this.scene);
+
+        if (!manager.pickup(manager, product)) {
+            product.destroy();
+        }
     }
 
     createWorkPlaces() {
