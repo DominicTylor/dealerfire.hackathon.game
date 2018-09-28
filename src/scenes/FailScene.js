@@ -43,7 +43,9 @@ export default class FailScene extends Phaser.Scene {
     }
 
     update() {
-        this.view.update();
+        if (this.view) {
+            this.view.update();
+        }
     }
 }
 
@@ -103,38 +105,23 @@ class View extends Phaser.GameObjects.Container {
 
         this.trashCan = trashCan;
 
-        const text = new Phaser.GameObjects.Text(
-            this.scene,
-            0, 0,
-            'Fail',
-            {
-                fontSize: 40,
-                fill: '#ff0000'
-            }
-        );
-        text.setOrigin(0.5);
-        text.setPosition(
-            this.scene.game.config.width >> 1,
-            this.scene.game.config.height >> 1
-        );
-
-        this.add(text);
-
         const enter = new Phaser.GameObjects.Text(
             this.scene,
             0, 0,
             'Press Enter to continue',
             {
-                fontSize: 12,
+                fontSize: 20,
                 fill: '#bbb'
             }
         );
         enter.setOrigin(0.5);
         enter.setPosition(
-            text.x,
-            text.y + (text.height >> 1) + 10
+            this.scene.game.config.width >> 1,
+            this.scene.game.config.height - enter.height - 40
         );
 
+        this.add(trashCan);
+        this.add(manager);
         this.add(enter);
     }
 

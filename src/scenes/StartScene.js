@@ -6,6 +6,7 @@ export default class StartScene extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image('start', 'assets/start.png');
         this.load.image('bg', 'assets/office.png');
         this.load.image('rip', 'assets/rip.png');
         this.load.image('hamburger', 'assets/hamburger.png');
@@ -76,19 +77,37 @@ class View extends Phaser.GameObjects.Container {
         );
         this.add(bg);
 
+        const img = new Phaser.GameObjects.Image(this.scene, 0, 0, 'start');
+        img.setPosition(
+            this.scene.game.config.width >> 1,
+            this.scene.game.config.height >> 1
+        );
+        this.add(img);
+
+        const logo = new Phaser.GameObjects.Image(this.scene, 0, 0, 'logo');
+        logo.setPosition(
+            this.scene.game.config.width >> 1,
+            (this.scene.game.config.height >> 1) - 300
+        );
+        logo.setScale(0.8);
+        this.add(logo);
+
         const text = new Phaser.GameObjects.Text(
             this.scene,
             0, 0,
-            'Start',
+            'Engineering Manager\nTycoon Simulator',
             {
                 fontSize: 40,
-                fill: '#ff0000'
+                fill: '#ff0000',
+                wordWrap: true,
+                wordWrapWidth: 200,
+                align: 'center'
             }
         );
         text.setOrigin(0.5);
         text.setPosition(
-          this.scene.game.config.width >> 1,
-          this.scene.game.config.height >> 1
+            img.x,
+            img.y - (img.height >> 1) - 40
         );
 
         this.add(text);
@@ -98,14 +117,14 @@ class View extends Phaser.GameObjects.Container {
             0, 0,
             'Press Enter to continue',
             {
-                fontSize: 12,
+                fontSize: 20,
                 fill: '#bbb'
             }
         );
         enter.setOrigin(0.5);
         enter.setPosition(
-            text.x,
-            text.y + (text.height >> 1) + 10
+            img.x,
+            img.y + (img.height >> 1) + 20
         );
 
         this.add(enter);

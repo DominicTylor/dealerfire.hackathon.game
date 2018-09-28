@@ -74,38 +74,22 @@ class View extends Phaser.GameObjects.Container {
 
         manager.anims.play('sleep');
 
-        const text = new Phaser.GameObjects.Text(
-            this.scene,
-            0, 0,
-            'Success',
-            {
-                fontSize: 40,
-                fill: '#ff0000'
-            }
-        );
-        text.setOrigin(0.5);
-        text.setPosition(
-            this.scene.game.config.width >> 1,
-            this.scene.game.config.height >> 1
-        );
-
-        this.add(text);
-
         const enter = new Phaser.GameObjects.Text(
             this.scene,
             0, 0,
             'Press Enter to continue',
             {
-                fontSize: 12,
+                fontSize: 20,
                 fill: '#bbb'
             }
         );
         enter.setOrigin(0.5);
         enter.setPosition(
-            text.x,
-            text.y + (text.height >> 1) + 10
+            this.scene.game.config.width >> 1,
+            this.scene.game.config.height - enter.height - 40
         );
 
+        this.add(manager);
         this.add(enter);
     }
 }
