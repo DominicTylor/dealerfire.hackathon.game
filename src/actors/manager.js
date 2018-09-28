@@ -52,6 +52,14 @@ export default class Manager {
 				key: 'manager',
 				frame: 'smile',
 				duration: 5
+			}, {
+				key: 'manager',
+				frame: 'front',
+				duration: 5
+			}, {
+				key: 'manager',
+				frame: 'smile_2',
+				duration: 5
 			}],
 			frameRate: 5,
 			repeat: -1
