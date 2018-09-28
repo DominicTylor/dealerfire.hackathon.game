@@ -137,13 +137,19 @@ class View extends Container {
     }
 
     update() {
+        if (this.emmited) {
+            return;
+        }
+
         if (this.tFactory.tasksFinished === 20) {
             this.scene.events.emit('onSceneEvent', 'gameSuccess');
+            this.emmited = true;
             return;
         }
 
         if (this.timer.fullDays >= 10) {
             this.scene.events.emit('onSceneEvent', 'gameFail');
+            this.emmited = true;
             return;
         }
 

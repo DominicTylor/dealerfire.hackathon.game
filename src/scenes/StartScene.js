@@ -1,4 +1,5 @@
 import 'phaser';
+import Config from '../config';
 
 export default class StartScene extends Phaser.Scene {
     constructor() {
@@ -61,6 +62,9 @@ export default class StartScene extends Phaser.Scene {
         this.children.add(this.view);
 
         this.input.keyboard.on('keyup', this.keyup, this);
+
+        //4test
+        window.cfg = Config;
     }
 
     keyup(e) {
