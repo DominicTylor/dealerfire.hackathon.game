@@ -7,6 +7,8 @@ export default class TaskFactory extends Factory {
     constructor(scene, x, y) {
         super(scene, x, y);
 
+        this.sprite.setTexture('stone');
+        this.sprite.body.setOffset(-37, -20);
         this.sprite.body.setSize(100, 50, false);
         this.currentTaskIndex = 0;
 
@@ -31,7 +33,9 @@ export default class TaskFactory extends Factory {
             new Task(scene, x, y, 1 * TICK_IN_DAY, 'Switch Ember version'),
             new Task(scene, x, y, 1 * TICK_IN_DAY, 'Fix broken modules'),
             new Task(scene, x, y, 3 * TICK_IN_DAY, 'Fix cloned websites')
-        ].forEach(task => {
+        ];
+
+        this.tasks.forEach(task => {
             task.parent = this;
         });
     }

@@ -1,4 +1,5 @@
 import Stuff from './stuff';
+import Task from './task';
 
 export default class Manager {
 	constructor(scene, x, y) {
@@ -92,7 +93,7 @@ export default class Manager {
 
 	interact(me, slave) {
 		if (this.backpack !== null && slave.consume(this.backpack)) {
-			this.destroyBackpackItem();
+			this.backpack = null;
 		}
 
 		if (slave instanceof Manager) {
