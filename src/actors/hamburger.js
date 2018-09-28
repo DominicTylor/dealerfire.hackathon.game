@@ -5,7 +5,7 @@ export default class Hamburger extends Stuff {
 		super(scene, x, y);
 
 		this.type = 'food';
-		this.value = 30;
+		this.value = 70;
 		this.sprite = scene.physics.add.sprite(x, y, 'hamburger');
 		this.sprite.body.immovable = true;
 	}

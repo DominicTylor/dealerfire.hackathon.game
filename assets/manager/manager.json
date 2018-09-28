@@ -99,6 +99,26 @@
 				"w": 195,
 				"h": 483
 			}
+		},
+		"smile_2": {
+			"frame": {
+				"x": 895,
+				"y": 1,
+				"w": 221,
+				"h": 474
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 221,
+				"h": 474
+			},
+			"sourceSize": {
+				"w": 221,
+				"h": 474
+			}
 		}
 	},
 	"meta": {
@@ -107,7 +127,7 @@
 		"image": "spritesheet.png",
 		"format": "RGBA8888",
 		"size": {
-			"w": 894,
+			"w": 1117,
 			"h": 501
 		},
 		"scale": "1"
