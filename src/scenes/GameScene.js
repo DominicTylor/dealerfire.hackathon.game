@@ -6,6 +6,8 @@ import Manager from '../actors/manager';
 import HamburgerFactory from '../actors/hamburger-factory';
 import EnergyDrinkFactory from '../actors/energy-drink-factory';
 import CoffeeFactory from '../actors/coffee-factory';
+import TaskFactory from '../actors/task-factory';
+import Timer from '../actors/timer';
 
 const {
     Text,
@@ -44,6 +46,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('coffee', 'assets/coffee.png');
         this.load.image('energy-drink', 'assets/energy.png');
         this.load.image('transparent', 'assets/transparent_tile.png');
+        this.load.image('stone', 'assets/stone.png');
 
         this.load.image('table4', 'assets/office/table1.png');
         this.load.image('table2', 'assets/office/table2.png');
@@ -86,14 +89,24 @@ class View extends Container {
         const hFactory = new HamburgerFactory(this.scene, 65, 125);
         const eFactory = new EnergyDrinkFactory(this.scene, 245, 125);
         const cFactory = new CoffeeFactory(this.scene, 425, 125);
+        const tFactory = new TaskFactory(this.scene, 300, 650, this);
+
+        this.shellContainer = new Phaser.GameObjects.Container(this.scene, 0, 640);
 
         this.add(manager.sprite);
+        this.add(this.shellContainer);
+        this.add(tFactory.sprite);
+
+        tFactory.tasks.forEach((task) => {
+            this.add(task.sprite);
+        });
 
         this.createWorkPlaces();
 
         this.scene.physics.add.collider(manager.sprite, hFactory.sprite, () => this.collideFactory(manager, hFactory));
         this.scene.physics.add.collider(manager.sprite, eFactory.sprite, () => this.collideFactory(manager, eFactory));
         this.scene.physics.add.collider(manager.sprite, cFactory.sprite, () => this.collideFactory(manager, cFactory));
+        this.scene.physics.add.collider(manager.sprite, tFactory.sprite, () => this.collideFactory(manager, tFactory));
 
         let {map, layer} = this.addMapGeo(this.scene);
 
@@ -101,6 +114,16 @@ class View extends Container {
         this.scene.physics.add.collider(manager.sprite, layer);
 
         manager.sprite.body.setCollideWorldBounds(true);
+
+        this.timer = new Timer({ticksInDay: 30000});
+        this.dayText = this.scene.make.text('0 / 10');
+        this.pointsText = this.scene.make.text('0 / 32');
+        this.tasksText = this.scene.make.text('0 / 20');
+
+        this.pointsText.setPosition(270, 0);
+        this.tasksText.setPosition(500, 0);
+
+        this.shellContainer.add([this.dayText, this.pointsText, this.tasksText]);
     }
 
     update() {
@@ -108,6 +131,15 @@ class View extends Container {
         this.list.forEach(item => {
             item.update();
         });
+        this.timer.update();
+
+        this.dayText.setText(`Day ${this.timer.day} / 10`);
+        this.pointsText.setText('0 / 32');
+        this.tasksText.setText('0 / 20');
+
+        if (this.timer.fullDays >= 10) {
+            // game over
+        }
     }
 
     addMapGeo(scene) {

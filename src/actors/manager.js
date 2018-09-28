@@ -1,4 +1,5 @@
 import Stuff from './stuff';
+import Task from './task';
 
 export default class Manager {
 	constructor(scene, x, y) {
@@ -52,6 +53,14 @@ export default class Manager {
 				key: 'manager',
 				frame: 'smile',
 				duration: 5
+			}, {
+				key: 'manager',
+				frame: 'front',
+				duration: 5
+			}, {
+				key: 'manager',
+				frame: 'smile_2',
+				duration: 5
 			}],
 			frameRate: 5,
 			repeat: -1
@@ -84,7 +93,7 @@ export default class Manager {
 
 	interact(me, slave) {
 		if (this.backpack !== null && slave.consume(this.backpack)) {
-			this.destroyBackpackItem();
+			this.backpack = null;
 		}
 
 		if (slave instanceof Manager) {
