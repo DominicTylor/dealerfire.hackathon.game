@@ -29,7 +29,7 @@ export default class Controller extends Phaser.Scene {
             }
 
             case 'gameFail': {
-                this.scene.start('Fail');
+                // this.scene.start('Fail');
                 break;
             }
 

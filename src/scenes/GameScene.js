@@ -191,7 +191,7 @@ class View extends Container {
     collideFactory(manager, factory) {
         let product = factory.produce(this.scene);
 
-        if (!manager.pickup(manager, product)) {
+        if (product && !manager.pickup(manager, product)) {
             product.destroy();
         }
     }
