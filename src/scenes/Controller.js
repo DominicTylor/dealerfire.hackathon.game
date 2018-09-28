@@ -16,6 +16,7 @@ export default class Controller extends Phaser.Scene {
             this.scene.get(sceneName).events.on('onSceneEvent', this.sceneEventHandler, this);
         });
 
+        window.test = this;
         this.scene.start('Start');
     }
 
