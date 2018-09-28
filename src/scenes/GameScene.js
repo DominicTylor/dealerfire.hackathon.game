@@ -1,7 +1,5 @@
 import 'phaser';
 import WorkPlace from '../actors/work-place';
-import Worker from '../actors/worker';
-import Table from '../actors/table';
 import Manager from '../actors/manager';
 import HamburgerFactory from '../actors/hamburger-factory';
 import EnergyDrinkFactory from '../actors/energy-drink-factory';
@@ -136,7 +134,7 @@ class View extends Container {
 
         manager.sprite.body.setCollideWorldBounds(true);
 
-        this.timer = new Timer({ticksInDay: 30000});
+        this.timer = new Timer({ticksInDay: 3000});
         this.dayText = this.scene.make.text('0 / 10');
         this.pointsText = this.scene.make.text('0 / 32');
         this.tasksText = this.scene.make.text('0 / 20');
