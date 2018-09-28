@@ -101,10 +101,6 @@ export default class Manager {
 
 			this.backpack = null;
 		}
-
-		if (slave instanceof Manager) {
-			console.log('touch me and then just push me, to get my satisfaction');
-		}
 	}
 
 	consume(stuff) {
@@ -152,7 +148,7 @@ export default class Manager {
 			this.destroyBackpackItem();
 		}
 
-		if (this.backpack !== null) {
+		if (this.backpack) {
 			this.backpack.sprite.x = this.sprite.x;
 			this.backpack.sprite.y = this.sprite.y;
 		}

@@ -10,9 +10,8 @@ export default class TaskFactory extends Factory {
         this.sprite.setTexture('stone');
         this.sprite.body.setOffset(-37, -20);
         this.sprite.body.setSize(100, 50, false);
-        this.currentTaskIndex = 0;
 
-        this.tasks = [
+        this._tasks = [
             new Task(scene, x, y, 1 * TICK_IN_DAY, 'Add new header module'),
             new Task(scene, x, y, 1 * TICK_IN_DAY, 'Styles not rendering'),
             new Task(scene, x, y, 2 * TICK_IN_DAY, 'Add new styles for container'),
@@ -35,27 +34,32 @@ export default class TaskFactory extends Factory {
             new Task(scene, x, y, 3 * TICK_IN_DAY, 'Fix cloned websites')
         ];
 
+        //4test
+        this._tasks.length = 3;
+
+        this.tasks = this._tasks.slice();
+
         this.tasks.forEach(task => {
             task.parent = this;
         });
     }
 
     get complete() {
-        return this.tasks.every(task => task.complete);
+        return this._tasks.every(task => task.complete);
     }
 
     produce(scene) {
-        let task = this.tasks[this.currentTaskIndex];
+        console.log('produce', this.tasks.length);
 
-        this.currentTaskIndex++;
-
-        return task;
+        return this.tasks.pop();
     }
 
     returnBack(task) {
         task.sprite.x = this.sprite.x;
         task.sprite.y = this.sprite.y;
 
-        this.currentTaskIndex--;
+        this.tasks.push(task);
+
+        console.log('returnBack', this.tasks.length);
     }
 }

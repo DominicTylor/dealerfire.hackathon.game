@@ -1,182 +1,193 @@
 import Phaser from 'phaser';
 
 export default class Worker extends Phaser.GameObjects.Sprite {
-	constructor(scene, {
-		x = 0,
-		y = 0,
-		width,
-		height,
-		spriteName,
-		characteristics: {
-			foodLossRate,
-			energyLossRate
-		}
-	}) {
-		super(scene, x, y);
-		this.setTexture(spriteName);
-		this.setPosition(x, y);
-		this.setDisplaySize(width, height);
-		this._spriteName = spriteName;
-		this._tempY = y;
-		this._scaleSide = 1;
-		this._loopTime = 0;
-		this._food = 100;
-		this._energy = 100;
-		this._task = false;
-		this._foodLossRate = foodLossRate;
-		this._energyLossRate = energyLossRate;
-		this._state = 'live';
-		this._deadPosition = 50;
-	}
+    constructor(scene, {
+        x = 0,
+        y = 0,
+        width,
+        height,
+        spriteName,
+        characteristics: {
+            foodLossRate,
+            energyLossRate
+        }
+    }) {
+        super(scene, x, y);
+        this.setTexture(spriteName);
+        this.setPosition(x, y);
+        this.setDisplaySize(width, height);
+        this._spriteName = spriteName;
+        this._tempY = y;
+        this._scaleSide = 1;
+        this._loopTime = 0;
+        this._food = 100;
+        this._energy = 100;
+        this._task = false;
+        this._foodLossRate = foodLossRate;
+        this._energyLossRate = energyLossRate;
+        this._state = 'live';
+        this._deadPosition = 50;
+    }
 
-	consume(stuff) {
-		const { type, value } = stuff;
+    consume(stuff) {
+        const {type, value} = stuff;
 
-		switch(type) {
-			case 'food':
-				this._setFood(value);
+        if (this._state === 'live') {
+            switch (type) {
+                case 'food':
+                    this._setFood(value);
 
-				return true;
-			case 'coffee':
-			case 'energyDrink':
-				this._setEnergy(value);
+                    return true;
+                case 'coffee':
+                case 'energyDrink':
+                    this._setEnergy(value);
 
-				return true;
-			case 'task': {
-				if (this._task && !this._task.complete) {
-					return false;
-				}
+                    return true;
+                case 'task': {
+                    if (this._task && !this._task.complete) {
+                        return false;
+                    }
 
-				this._setTask(stuff);
+                    this._setTask(stuff);
 
-				return true;
-			}
-		}
-	}
+                    return true;
+                }
+            }
+        }
 
-	update() {
-		switch (this._state) {
-			case 'live': {
-				if (this._task && !this._task.complete) {
-					this._normalWorkingAnimation();
-				} else {
-					this._showMessage('noTask');
-				}
+        return false;
+    }
 
-				this._updateParam();
+    update() {
+        switch (this._state) {
+            case 'live': {
+                if (this._task && !this._task.complete) {
+                    this._normalWorkingAnimation();
+                } else {
+                    this._showMessage('noTask');
+                }
 
-				break;
-			}
+                this._updateParam();
 
-			case 'dying':
-				this._dyingAnimation();
+                break;
+            }
 
-				break;
-		}
+            case 'dying': {
+                if (this._task) {
+                    this._task.destroy();
+                    this._task = null;
+                }
 
-		this._loopTime = this._loopTime > 300 ? 0 : this._loopTime + 1;
-	}
+                this._dyingAnimation();
 
-	hideRip() {
-		this.setVisible(false);
-	}
+                break;
+            }
+        }
 
-	_updateParam() {
-		const f = this._food;
-		const e = this._energy;
-		const t = this._task;
+        this._loopTime = this._loopTime > 300 ? 0 : this._loopTime + 1;
+    }
 
-		if (f > 0 && e > 0) {
-			if (f > 0) {
-				this._food = f - 8 / this._foodLossRate;
+    hideRip() {
+        this.setVisible(false);
+    }
 
-				if (f < 50) {
-					this._showMessage('foodLow');
-				}
-			}
+    _updateParam() {
+        const f = this._food;
+        const e = this._energy;
+        const t = this._task;
+        const FOOD_DECREASE = 20;
 
-			if (e > 0) {
-				this._energy = e - 4 / this._energyLossRate;
+        if (f > 0 && e > 0) {
+            if (f > 0) {
+                this._food = f - FOOD_DECREASE / this._foodLossRate;
 
-				if (e < 50) {
-					this._showMessage('energyLow');
-				}
-			}
+                if (f < 50) {
+                    this._showMessage('foodLow');
+                }
+            }
 
-			if (t && !t.complete) {
-				t.progress++;
-			} else {
-				this._task = false;
-			}
-		} else {
-			this._state = 'dying';
-		}
-	}
+            if (e > 0) {
+                this._energy = e - 4 / this._energyLossRate;
 
-	_normalWorkingAnimation() {
-		if (!(this._loopTime % 20)) {
-			this.setY(this._tempY === this.y ? this.y - 2 : this._tempY);
-		}
+                if (e < 50) {
+                    this._showMessage('energyLow');
+                }
+            }
 
-		if (!(this._loopTime % 30)) {
-			let side = this._scaleSide;
-			let angle = this.angle;
+            if (t && !t.complete) {
+                t.progress++;
+            } else {
+                this._task = false;
+            }
+        } else {
+            this._state = 'dying';
+        }
+    }
 
-			if (angle > side && angle > 0) {
-				this._scaleSide = -2;
-				side = -1;
-			} else if (angle < side && angle < 0) {
-				this._scaleSide = 2;
-				side = 1;
-			}
+    _normalWorkingAnimation() {
+        if (!(this._loopTime % 20)) {
+            this.setY(this._tempY === this.y ? this.y - 2 : this._tempY);
+        }
 
-			this.setAngle(angle + side);
-		}
-	}
+        if (!(this._loopTime % 30)) {
+            let side = this._scaleSide;
+            let angle = this.angle;
 
-	_dyingAnimation() {
-		if (this._deadPosition) {
-			this._deadPosition--;
-			this.setY(this.y + 1);
-		} else {
-			this._sendWorkerDead();
-			this._state = 'dead';
-		}
-	}
+            if (angle > side && angle > 0) {
+                this._scaleSide = -2;
+                side = -1;
+            } else if (angle < side && angle < 0) {
+                this._scaleSide = 2;
+                side = 1;
+            }
 
-	_setFood(value) {
-		this._food = Math.max(value, 100);
-	}
+            this.setAngle(angle + side);
+        }
+    }
 
-	_setEnergy(value) {
-		this._energy = Math.max(value, 100);
-	}
+    _dyingAnimation() {
+        if (this._deadPosition) {
+            this._deadPosition--;
+            this.setY(this.y + 1);
+        } else {
+            this._sendWorkerDead();
+            this._state = 'dead';
+        }
+    }
 
-	_setTask(stuff) {
-		this._task = stuff;
-	}
+    _setFood(value) {
+        this._food = Math.max(value, 100);
+    }
 
-	_showMessage(message) {
-		switch(message) {
-			case 'foodLow':
-				this.parentContainer.showMessage('🍔');
+    _setEnergy(value) {
+        this._energy = Math.max(value, 100);
+    }
 
-				break;
+    _setTask(stuff) {
+        this._task = stuff;
+    }
 
-			case 'energyLow':
-				this.parentContainer.showMessage('⚡');
+    _showMessage(message) {
+        switch (message) {
+            case 'foodLow':
+                this.parentContainer.showMessage('🍔');
 
-				break;
+                break;
 
-			case 'noTask':
-				this.parentContainer.showMessage('📑');
+            case 'energyLow':
+                this.parentContainer.showMessage('⚡');
 
-				break;
-		}
-	}
+                break;
 
-	_sendWorkerDead() {
-		this.parentContainer.workerDead();
-		this.scene.events.emit('onSceneEvent', 'workerDead', this._spriteName);
-	}
+            case 'noTask':
+                this.parentContainer.showMessage('📑');
+
+                break;
+        }
+    }
+
+    _sendWorkerDead() {
+        this.parentContainer.workerDead();
+        this.scene.events.emit('onSceneEvent', 'workerDead', this._spriteName);
+    }
 }
