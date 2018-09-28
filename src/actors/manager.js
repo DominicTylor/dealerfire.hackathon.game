@@ -3,7 +3,7 @@ import Task from './task';
 
 export default class Manager {
 	constructor(scene, x, y) {
-		this._speed = 100;
+		this._speed = 200;
 		this.sprite = scene.physics.add.sprite(x, y, 'manager');
 		this.keys = scene.input.keyboard.createCursorKeys();
 		this.backpack = null;
