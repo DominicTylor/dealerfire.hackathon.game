@@ -45,6 +45,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('energy-drink', 'assets/energy.png');
         this.load.image('transparent', 'assets/transparent_tile.png');
         this.load.image('stone', 'assets/stone.png');
+	    this.load.image('tasks', 'assets/tasks.png');
 
         this.load.image('table4', 'assets/office/table1.png');
         this.load.image('table2', 'assets/office/table2.png');
@@ -114,11 +115,12 @@ class View extends Container {
 
         this.add(manager.sprite);
         this.add(this.shellContainer);
-        this.add(tFactory.sprite);
 
         tFactory.tasks.forEach((task) => {
             this.add(task.sprite);
         });
+
+	    this.add(tFactory.sprite);
 
         this.createWorkPlaces();
 
