@@ -44,7 +44,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('coffee', 'assets/coffee.png');
         this.load.image('energy-drink', 'assets/energy.png');
         this.load.image('transparent', 'assets/transparent_tile.png');
-        this.load.image('stone', 'assets/stone.png');
+        this.load.image('task', 'assets/task.png');
 	    this.load.image('tasks', 'assets/tasks.png');
 
         this.load.image('table4', 'assets/office/table1.png');

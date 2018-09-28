@@ -13,9 +13,8 @@ export default class Task extends Stuff {
         this.points = value;
         this.value = value * TICK_IN_DAY;
 
-        this.sprite = scene.physics.add.sprite(x, y, 'stone');
+        this.sprite = scene.physics.add.sprite(x, y, 'task');
         this.sprite.body.immovable = true;
-        this.sprite.setScale(0.3, 0.3);
     }
 
     get complete() {

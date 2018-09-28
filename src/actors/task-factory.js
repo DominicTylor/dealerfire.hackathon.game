@@ -6,9 +6,11 @@ export default class TaskFactory extends Factory {
         super(scene, x, y);
 
         this.sprite.setTexture('tasks');
-	    this.sprite.setPosition(295, 640);
+	    this.sprite.setPosition(295, 624);
         this.sprite.body.setOffset(-37, -20);
         this.sprite.body.setSize(100, 50, false);
+
+        y -= 20;
 
         this._tasks = [
             new Task(scene, x, y, 1, 'Add new header module'),
