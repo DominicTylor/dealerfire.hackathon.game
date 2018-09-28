@@ -26,9 +26,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		this._foodLossRate = foodLossRate;
 		this._energyLossRate = energyLossRate;
 		this._state = 'live';
-
-        // scene.physics.add.existing(this);
-        // this.body.immovable = true;
+		this._deadPosition = 50;
 	}
 
 	consume(stuff) {
@@ -77,6 +75,10 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		}
 
 		this._loopTime = this._loopTime > 300 ? 0 : this._loopTime + 1;
+	}
+
+	hideRip() {
+		this.setVisible(false);
 	}
 
 	_updateParam() {
@@ -133,10 +135,13 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	}
 
 	_dyingAnimation() {
-		console.log(`${this._spriteName} dead`);
-
-		this._sendWorkerDead();
-		this._state = 'dead';
+		if (this._deadPosition) {
+			this._deadPosition--;
+			this.setY(this.y + 1);
+		} else {
+			this._sendWorkerDead();
+			this._state = 'dead';
+		}
 	}
 
 	_setFood(value) {
@@ -171,6 +176,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	}
 
 	_sendWorkerDead() {
+		this.parentContainer.workerDead();
 		this.scene.events.emit('onSceneEvent', 'workerDead', this._spriteName);
 	}
 }

@@ -37,6 +37,7 @@ export default class GameScene extends Phaser.Scene {
 
     preload() {
         this.load.image('bg', 'assets/office.png');
+	    this.load.image('rip', 'assets/rip.png');
         this.load.image('hamburger', 'assets/hamburger.png');
 	    this.load.image('message1', 'assets/messages/message1.png');
 	    this.load.image('message2', 'assets/messages/message2.png');
@@ -161,6 +162,11 @@ class View extends Container {
                     }
                 },
 
+	            rip: {
+                	x: 20,
+		            y: -45
+	            },
+
 	            message: {
 		            x: -46,
 		            y: -128,
@@ -185,10 +191,15 @@ class View extends Container {
                     width: 50,
                     height: 130,
                     characteristics: {
-                        foodLossRate: 500,
+                        foodLossRate: 300,
                         energyLossRate: 600
                     }
                 },
+
+	            rip: {
+		            x: 7,
+		            y: -45
+	            },
 
 	            message: {
 		            x: 54,
@@ -214,10 +225,15 @@ class View extends Container {
                     width: 50,
                     height: 110,
                     characteristics: {
-                        foodLossRate: 300,
+                        foodLossRate: 500,
                         energyLossRate: 800
                     }
                 },
+
+	            rip: {
+		            x: 20,
+		            y: -45
+	            },
 
 	            message: {
 		            x: -42,
@@ -246,6 +262,11 @@ class View extends Container {
                         energyLossRate: 200
                     }
                 },
+
+	            rip: {
+		            x: 7,
+		            y: -45
+	            },
 
                 message: {
                     x: 55,
