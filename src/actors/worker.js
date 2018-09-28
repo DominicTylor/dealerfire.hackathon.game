@@ -22,8 +22,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		this._loopTime = 0;
 		this._food = 100;
 		this._energy = 100;
-		this._task = 0;
-		this._hasTask = false;
+		this._task = false;
 		this._foodLossRate = foodLossRate;
 		this._energyLossRate = energyLossRate;
 		this._state = 'live';
@@ -32,7 +31,9 @@ export default class Worker extends Phaser.GameObjects.Sprite {
         // this.body.immovable = true;
 	}
 
-	consume({ type, value }) {
+	consume(stuff) {
+		const { type, value } = stuff;
+
 		switch(type) {
 			case 'food':
 				this._setFood(value);
@@ -44,11 +45,11 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 
 				return true;
 			case 'task': {
-				if (this._hasTask) {
+				if (this._task && !this._task.complete) {
 					return false;
 				}
 
-				this._setTask(value);
+				this._setTask(stuff);
 
 				return true;
 			}
@@ -58,7 +59,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	update() {
 		switch (this._state) {
 			case 'live': {
-				if (this._hasTask) {
+				if (this._task && !this._task.complete) {
 					this._normalWorkingAnimation();
 				} else {
 					this._showMessage('noTask');
@@ -85,26 +86,25 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 
 		if (f > 0 && e > 0) {
 			if (f > 0) {
-				this._food = f - 20 / this._foodLossRate;
+				this._food = f - 8 / this._foodLossRate;
 
-				if (f < 20) {
+				if (f < 50) {
 					this._showMessage('foodLow');
 				}
 			}
 
 			if (e > 0) {
-				this._energy = e - 10 / this._energyLossRate;
+				this._energy = e - 4 / this._energyLossRate;
 
-				if (e < 20) {
+				if (e < 50) {
 					this._showMessage('energyLow');
 				}
 			}
 
-			if (t > 0) {
-				--this._task;
-			} else if (this._hasTask) {
-				this._hasTask = false;
-				this._sendTaskDone();
+			if (t && !t.complete) {
+				t.progress++;
+			} else {
+				this._task = false;
 			}
 		} else {
 			this._state = 'dying';
@@ -147,9 +147,8 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		this._energy = Math.max(value, 100);
 	}
 
-	_setTask(value) {
-		this._hasTask = true;
-		this._task = value;
+	_setTask(stuff) {
+		this._task = stuff;
 	}
 
 	_showMessage(message) {
@@ -171,11 +170,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		}
 	}
 
-	_sendTaskDone() {
-		this.scene.events.emit('onSceneEvent', 'taskDone');
-	}
-
 	_sendWorkerDead() {
-		this.scene.events.emit('onSceneEvent', 'workerDead');
+		this.scene.events.emit('onSceneEvent', 'workerDead', this._spriteName);
 	}
 }

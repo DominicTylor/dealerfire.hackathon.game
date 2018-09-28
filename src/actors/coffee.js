@@ -5,7 +5,7 @@ export default class Coffee extends Stuff {
 		super(scene, x, y);
 
 		this.type = 'coffee';
-		this.value = 25;
+		this.value = 40;
 		this.sprite = scene.physics.add.sprite(x, y, 'coffee');
 		this.sprite.body.immovable = true;
 	}
