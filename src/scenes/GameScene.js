@@ -66,12 +66,6 @@ export default class GameScene extends Phaser.Scene {
 
         this.view = new View(this);
         this.children.add(this.view);
-
-        // TODO
-        // setTimeout(() => {
-        //     this.events.emit('onSceneEvent', 'Game', 'transition');
-        //     this.scene.start(Math.random() - 0.5 > 0 ? 'Success' : 'Fail');
-        // }, 2000);
     }
 
     update() {
