@@ -20,7 +20,6 @@ export default class IntroScene extends Phaser.Scene {
         this.children.add(view);
 
         setTimeout(() => {
-            this.events.emit('onSceneEvent', 'Intro', 'transition');
             this.scene.start('Start');
         }, 2000);
     }

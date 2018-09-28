@@ -16,10 +16,35 @@ export default class Controller extends Phaser.Scene {
             this.scene.get(sceneName).events.on('onSceneEvent', this.sceneEventHandler.bind(this));
         });
 
-        this.scene.start('Game');
+        this.scene.start('Start');
     }
 
-    sceneEventHandler(sceneName, event, data) {
-        console.log('sceneEventHandler', sceneName, event, data);
+    sceneEventHandler(event, data) {
+        console.log('sceneEventHandler', event, data);
+
+        switch (event) {
+            case 'gameSuccess': {
+                this.scene.start('Success');
+                break;
+            }
+
+            case 'gameFail': {
+                this.scene.start('Fail');
+                break;
+            }
+
+            case 'gameStart': {
+                this.scene.start('Game');
+                break;
+            }
+
+            case 'gameRetry': {
+                this.scene.start('Start');
+                break;
+            }
+
+            default:
+                console.warn('Unknown event');
+        }
     }
 }

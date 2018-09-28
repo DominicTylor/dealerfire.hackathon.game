@@ -3,22 +3,16 @@ import 'phaser';
 export default class StartScene extends Phaser.Scene {
     constructor() {
         super('Start');
-
-        console.log(arguments)
     }
 
-
     create() {
-        console.log('Start', 'create');
-
         const view = new View(this);
 
         this.children.add(view);
 
         // TODO
         setTimeout(() => {
-            this.events.emit('onSceneEvent', 'Start', 'transition');
-            this.scene.start('Game');
+            this.events.emit('onSceneEvent', 'gameStart');
         }, 2000);
     }
 }

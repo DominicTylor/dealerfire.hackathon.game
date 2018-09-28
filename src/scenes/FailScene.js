@@ -6,16 +6,13 @@ export default class FailScene extends Phaser.Scene {
     }
 
     create() {
-        console.log('Fail', 'create');
-
         const view = new View(this);
 
         this.children.add(view);
 
         // TODO
         setTimeout(() => {
-            this.events.emit('onSceneEvent', 'Fail', 'transition');
-            this.scene.start('Start');
+            this.events.emit('onSceneEvent', 'gameRetry');
         }, 2000);
     }
 }

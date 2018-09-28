@@ -66,6 +66,27 @@ export default class GameScene extends Phaser.Scene {
 
         this.view = new View(this);
         this.children.add(this.view);
+
+        this.events.on('onSceneEvent', this.sceneEventHandler.bind(this));
+
+        this.wokers = 4;
+    }
+
+    sceneEventHandler(event, data) {
+        switch (event) {
+            case 'workerDead': {
+                console.log('workers', this.wokers);
+                this.wokers--;
+
+                if (!this.wokers) {
+                    this.events.emit('onSceneEvent', 'gameFail');
+                }
+                break;
+            }
+
+            default:
+                console.warn('Game scene', 'Unknown event', event);
+        }
     }
 
     update() {
