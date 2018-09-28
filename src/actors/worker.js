@@ -2,8 +2,8 @@ import Phaser from 'phaser';
 
 export default class Worker extends Phaser.GameObjects.Sprite {
 	constructor(scene, {
-		x,
-		y,
+		x = 0,
+		y = 0,
 		width,
 		height,
 		spriteName,
@@ -56,9 +56,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		}
 	}
 
-	update(time, delta) {
-		super.preUpdate(time, delta);
-
+	update() {
 		switch (this._state) {
 			case 'live': {
 				if (this._task > 0) {
@@ -78,7 +76,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 				break;
 		}
 
-		this._loopTime = this._loopTime > 30 ? 0 : this._loopTime + 1;
+		this._loopTime = this._loopTime > 300 ? 0 : this._loopTime + 1;
 	}
 
 	_updateParam() {
@@ -112,11 +110,11 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	}
 
 	_normalWorkingAnimation() {
-		if (!(this._loopTime % 10)) {
+		if (!(this._loopTime % 20)) {
 			this.setY(this._tempY === this.y ? this.y - 2 : this._tempY);
 		}
 
-		if (!(this._loopTime % 15)) {
+		if (!(this._loopTime % 30)) {
 			let side = this._scaleSide;
 			let angle = this.angle;
 
@@ -141,7 +139,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	}
 
 	_setHungry(value) {
-		this._energy = Math.max(value, 100);
+		this._hunger = Math.max(value, 100);
 	}
 
 	_setEnergy(value) {

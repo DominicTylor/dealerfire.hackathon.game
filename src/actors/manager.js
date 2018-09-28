@@ -58,8 +58,8 @@ export default class Manager {
 		this.sprite.setScale(0.3, 0.3);
 		this.sprite.anims.play('walk_down');
 
-		this.sprite.body.setOffset(15, 380);
-		this.sprite.body.setSize(150, 130, false);
+		this.sprite.body.setOffset(15, 400);
+		this.sprite.body.setSize(150, 100, false);
 	}
 
 	set speed(speed) {

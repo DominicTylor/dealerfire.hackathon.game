@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 export default class Table extends Phaser.GameObjects.Sprite {
-	constructor(scene, { x, y, spriteName }) {
+	constructor(scene, { x = 0, y = 0, spriteName }) {
 		super(scene, x, y);
 
 		this.setTexture(spriteName);
@@ -10,9 +10,5 @@ export default class Table extends Phaser.GameObjects.Sprite {
 
         scene.physics.add.existing(this);
         this.body.immovable = true;
-	}
-
-	consume() {
-
 	}
 }

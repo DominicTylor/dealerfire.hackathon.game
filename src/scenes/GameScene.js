@@ -1,4 +1,5 @@
 import 'phaser';
+import WorkPlace from '../actors/work-place';
 import Worker from '../actors/worker';
 import Table from '../actors/table';
 import Manager from '../actors/manager';
@@ -13,13 +14,14 @@ const {
 } = Phaser.GameObjects;
 
 const geoData = [
-    [0, 4], [1, 4], [2, 4], [3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [8, 4], [9, 4],[10, 4], [11, 4], [12, 4], [13, 4], [14, 4],
-    [0, 5], [5, 5], [9, 5], [14, 5],
-    [0, 6], [14, 6],
-    [0, 7], [14, 7],
-    [0, 8], [1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [9, 8], [10, 8], [11, 8], [12, 8],[13, 8], [14, 8],
-    [0, 9], [1, 9], [13, 9], [14, 9],
-    [0, 10], [1, 10], [2, 10], [3, 10], [11, 10], [12, 10],[13, 10], [14, 10],
+    [0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 2], [9, 2],[10, 2], [11, 2], [12, 2], [13, 2], [14, 2],
+    [0, 4], [1, 4], [4, 4], [5, 4], [9, 4], [10, 4], [13, 4], [14, 4],
+    [0, 5], [1, 5], [13, 5], [14, 5],
+    [0, 6], [1, 6], [13, 6], [14, 6],
+    [0, 7], [1, 7], [2, 7], [3, 7], [4, 7], [5, 7], [9, 7], [10, 7], [11, 7], [12, 7], [13, 7], [14, 7],
+    [0, 8], [1, 8], [13, 8], [14, 8],
+    [0, 9], [1, 9], [2, 9], [3, 9], [11, 9], [12, 9], [13, 9], [14, 9],
+    [0, 10], [1, 10], [2, 10], [3, 10], [4, 10], [5, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [14, 10],
     [0, 11], [1, 11], [2, 11], [3, 11], [4, 11], [5, 11], [9, 11], [10, 11], [11, 11], [12, 11],[13, 11], [14, 11],
     [0, 12], [14, 12],
     [0, 13], [14, 13],
@@ -70,8 +72,8 @@ export default class GameScene extends Phaser.Scene {
         // }, 2000);
     }
 
-    update(){
-	    this.view.update();
+    update() {
+        this.view.update();
     }
 }
 
@@ -84,20 +86,37 @@ class View extends Container {
         this.add(bg);
 
         const manager = this.manager = new Manager(this.scene, 300, 400);
-        const hFactory = new HamburgerFactory(this.scene, 65, 190);
-        const eFactory = new EnergyDrinkFactory(this.scene, 245, 190);
-        const cFactory = new CoffeeFactory(this.scene, 425, 190);
+        const hFactory = new HamburgerFactory(this.scene, 65, 125);
+        const eFactory = new EnergyDrinkFactory(this.scene, 245, 125);
+        const cFactory = new CoffeeFactory(this.scene, 425, 125);
 
         this.add(manager.sprite);
 
-        this.createWorkers();
-        this.createTables();
+        this.createWorkPlaces();
+        // this.createWorkers();
+        // this.createTables();
 
         this.scene.physics.add.collider(manager.sprite, hFactory.sprite, () => this.collideFactory(manager, hFactory));
         this.scene.physics.add.collider(manager.sprite, eFactory.sprite, () => this.collideFactory(manager, eFactory));
         this.scene.physics.add.collider(manager.sprite, cFactory.sprite, () => this.collideFactory(manager, cFactory));
 
-        let map = this.scene.make.tilemap({
+        let {map, layer} = this.addMapGeo(this.scene);
+
+        layer.setCollision(0);
+        this.scene.physics.add.collider(manager.sprite, layer);
+
+        manager.sprite.body.setCollideWorldBounds(true);
+    }
+
+    update() {
+        this.manager.update();
+        this.list.forEach(item => {
+            item.update();
+        });
+    }
+
+    addMapGeo(scene) {
+        let map = scene.make.tilemap({
             tileWidth: 40,
             tileHeight: 40,
             width: 600,
@@ -111,20 +130,14 @@ class View extends Container {
             layer.putTileAt(0, tile[0], tile[1]);
         });
 
-        layer.setCollision(0);
         layer.setActive(true);
+
         map.setLayer(layer);
 
-        this.scene.physics.add.collider(manager.sprite, layer, () => console.log(1));
-
-        manager.sprite.body.setCollideWorldBounds(true);
-    }
-
-    update() {
-        this.manager.update();
-        this.list.forEach(item => {
-            item.update();
-        });
+        return {
+            map,
+            layer
+        };
     }
 
     collideFactory(manager, factory) {
@@ -135,13 +148,107 @@ class View extends Container {
         }
     }
 
+    createWorkPlaces() {
+        const scene = this.scene;
+        const manager = this.manager;
+        const configs = [
+            {
+                x: 100,
+                y: 248,
+                worker: {
+                    x: 10,
+                    y: -30,
+                    spriteName: 'worker1',
+                    width: 50,
+                    height: 130,
+                    characteristics: {
+                        foodLossRate: 700,
+                        energyLossRate: 400
+                    }
+                },
+
+                table: {
+                    spriteName: 'table1'
+                }
+            },
+            {
+                x: 500,
+                y: 252,
+                worker: {
+                    x: 6,
+                    y: -30,
+                    spriteName: 'worker2',
+                    width: 50,
+                    height: 130,
+                    characteristics: {
+                        foodLossRate: 500,
+                        energyLossRate: 600
+                    }
+                },
+
+                table: {
+                    spriteName: 'table2'
+                }
+            },
+            {
+                x: 100,
+                y: 420,
+                worker: {
+                    x: 10,
+                    y: -20,
+                    spriteName: 'worker3',
+                    width: 50,
+                    height: 110,
+                    characteristics: {
+                        foodLossRate: 300,
+                        energyLossRate: 800
+                    }
+                },
+
+                table: {
+                    spriteName: 'table3'
+                }
+            },
+            {
+                x: 500,
+                y: 416,
+                worker: {
+                    y: -30,
+                    spriteName: 'worker4',
+                    width: 50,
+                    height: 130,
+                    characteristics: {
+                        foodLossRate: 900,
+                        energyLossRate: 200
+                    }
+                },
+
+                table: {
+                    spriteName: 'table4'
+                }
+            }
+        ];
+
+        configs.forEach((config) => {
+            config.y += 90;
+
+            const workPlace = new WorkPlace(scene, config);
+
+            this.add(workPlace);
+
+            scene.physics.add.collider(manager.sprite, workPlace.table, () => {
+                manager.interact(manager, workPlace);
+            });
+        });
+    }
+
     createWorkers() {
         const scene = this.scene;
         const manager = this.manager;
 
         let workers = [
             {
-                x: 100,
+                x: 110,
                 y: 250,
                 spriteName: 'worker1',
                 width: 50,
@@ -152,7 +259,7 @@ class View extends Container {
                 }
             },
             {
-                x: 465,
+                x: 500,
                 y: 250,
                 spriteName: 'worker2',
                 width: 50,
@@ -163,19 +270,19 @@ class View extends Container {
                 }
             },
             {
-                x: 100,
-                y: 390,
+                x: 110,
+                y: 400,
                 spriteName: 'worker3',
                 width: 50,
-                height: 130,
+                height: 110,
                 characteristics: {
                     foodLossRate: 300,
                     energyLossRate: 800
                 }
             },
             {
-                x: 465,
-                y: 372,
+                x: 500,
+                y: 390,
                 spriteName: 'worker4',
                 width: 50,
                 height: 130,
@@ -205,22 +312,22 @@ class View extends Container {
         const tables = [
             {
                 x: 100,
-                y: 274,
+                y: 279,
                 spriteName: 'table1'
             },
             {
                 x: 500,
-                y: 280,
+                y: 282,
                 spriteName: 'table2'
             },
             {
                 x: 100,
-                y: 404,
+                y: 430,
                 spriteName: 'table3'
             },
             {
-                x: 480,
-                y: 404,
+                x: 500,
+                y: 425,
                 spriteName: 'table4'
             }
         ];
