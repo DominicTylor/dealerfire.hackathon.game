@@ -5,7 +5,8 @@ export default class TaskFactory extends Factory {
     constructor(scene, x, y) {
         super(scene, x, y);
 
-        this.sprite.setTexture('stone');
+        this.sprite.setTexture('tasks');
+	    this.sprite.setPosition(295, 640);
         this.sprite.body.setOffset(-37, -20);
         this.sprite.body.setSize(100, 50, false);
 
