@@ -42,6 +42,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('coffee', 'assets/coffee.png');
         this.load.image('energy-drink', 'assets/energy.png');
         this.load.image('transparent', 'assets/transparent_tile.png');
+        this.load.image('stone', 'assets/stone.png');
 
         this.load.image('table4', 'assets/office/table1.png');
         this.load.image('table2', 'assets/office/table2.png');
@@ -112,9 +113,14 @@ class View extends Container {
         manager.sprite.body.setCollideWorldBounds(true);
 
         this.timer = new Timer({ticksInDay: 300});
-        this.dayText = this.scene.make.text(0, 0, 'ads');
+        this.dayText = this.scene.make.text('0 / 10');
+        this.pointsText = this.scene.make.text('0 / 32');
+        this.tasksText = this.scene.make.text('0 / 20');
 
-        this.shellContainer.add(this.dayText);
+        this.pointsText.setPosition(270, 0);
+        this.tasksText.setPosition(500, 0);
+
+        this.shellContainer.add([this.dayText, this.pointsText, this.tasksText]);
     }
 
     update() {
@@ -125,6 +131,8 @@ class View extends Container {
         this.timer.update();
 
         this.dayText.setText(`Day ${this.timer.day} / 10`);
+        this.pointsText.setText('0 / 32');
+        this.tasksText.setText('0 / 20');
 
         if (this.timer.fullDays >= 10) {
             // game over
