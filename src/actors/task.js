@@ -1,5 +1,7 @@
 import Stuff from './stuff';
 
+const TICK_IN_DAY = 3000;
+
 export default class Task extends Stuff {
     constructor(scene, x, y, value, title) {
         super(scene, x, y);
@@ -8,7 +10,8 @@ export default class Task extends Stuff {
         this._progress = 0;
         this.parent = null;
         this.type = 'task';
-        this.value = value;
+        this.points = value;
+        this.value = value * TICK_IN_DAY;
 
         this.sprite = scene.physics.add.sprite(x, y, 'stone');
         this.sprite.body.immovable = true;

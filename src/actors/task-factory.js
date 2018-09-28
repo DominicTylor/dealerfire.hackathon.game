@@ -1,8 +1,6 @@
 import Factory from '../actors/factory';
 import Task from '../actors/task';
 
-const TICK_IN_DAY = 3000;
-
 export default class TaskFactory extends Factory {
     constructor(scene, x, y) {
         super(scene, x, y);
@@ -12,30 +10,27 @@ export default class TaskFactory extends Factory {
         this.sprite.body.setSize(100, 50, false);
 
         this._tasks = [
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Add new header module'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Styles not rendering'),
-            new Task(scene, x, y, 2 * TICK_IN_DAY, 'Add new styles for container'),
-            new Task(scene, x, y, 3 * TICK_IN_DAY, 'Support new button in form-variants'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Fix menu on prod'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Add new widget'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Add new spacer widget'),
-            new Task(scene, x, y, 2 * TICK_IN_DAY, 'Fix alignment in config'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Add menu action buttons'),
-            new Task(scene, x, y, 2 * TICK_IN_DAY, 'Remove old modules'),
-            new Task(scene, x, y, 2 * TICK_IN_DAY, 'Fix image upload'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Add module ACL'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Add widget ACL'),
-            new Task(scene, x, y, 2 * TICK_IN_DAY, 'Add field ACL'),
-            new Task(scene, x, y, 2 * TICK_IN_DAY, 'Add new style to form'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Add multistep support'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Fix form render'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Switch Ember version'),
-            new Task(scene, x, y, 1 * TICK_IN_DAY, 'Fix broken modules'),
-            new Task(scene, x, y, 3 * TICK_IN_DAY, 'Fix cloned websites')
+            new Task(scene, x, y, 1, 'Add new header module'),
+            new Task(scene, x, y, 2, 'Styles not rendering'),
+            new Task(scene, x, y, 2, 'Add new styles for container'),
+            new Task(scene, x, y, 3, 'Support new button in form-variants'),
+            new Task(scene, x, y, 1, 'Fix menu on prod'),
+            new Task(scene, x, y, 1, 'Add new widget'),
+            new Task(scene, x, y, 1, 'Add new spacer widget'),
+            new Task(scene, x, y, 2, 'Fix alignment in config'),
+            new Task(scene, x, y, 1, 'Add menu action buttons'),
+            new Task(scene, x, y, 2, 'Remove old modules'),
+            new Task(scene, x, y, 2, 'Fix image upload'),
+            new Task(scene, x, y, 1, 'Add module ACL'),
+            new Task(scene, x, y, 1, 'Add widget ACL'),
+            new Task(scene, x, y, 2, 'Add field ACL'),
+            new Task(scene, x, y, 2, 'Add new style to form'),
+            new Task(scene, x, y, 1, 'Add multistep support'),
+            new Task(scene, x, y, 1, 'Fix form render'),
+            new Task(scene, x, y, 2, 'Switch Ember version'),
+            new Task(scene, x, y, 1, 'Fix broken modules'),
+            new Task(scene, x, y, 3, 'Fix cloned websites')
         ];
-
-        //4test
-        this._tasks.length = 3;
 
         this.tasks = this._tasks.slice();
 
@@ -46,6 +41,22 @@ export default class TaskFactory extends Factory {
 
     get complete() {
         return this._tasks.every(task => task.complete);
+    }
+
+    get pointsFinished() {
+        return this._tasks.reduce((acc, task) => {
+            acc += task.complete ? task.points : 0;
+
+            return acc;
+        }, 0);
+    }
+
+    get tasksFinished() {
+        return this._tasks.reduce((acc, task) => {
+            acc += task.complete ? 1 : 0;
+
+            return acc;
+        }, 0);
     }
 
     produce(scene) {

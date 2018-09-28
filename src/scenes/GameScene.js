@@ -139,10 +139,13 @@ class View extends Container {
         this.pointsText = this.scene.make.text('0 / 32');
         this.tasksText = this.scene.make.text('0 / 20');
 
-        this.pointsText.setPosition(270, 0);
-        this.tasksText.setPosition(500, 0);
+        this.dayText.setPosition(110, 45);
+        this.pointsText.setPosition(315, 45);
+        this.tasksText.setPosition(515, 45);
 
         this.shellContainer.add([this.dayText, this.pointsText, this.tasksText]);
+
+        this.tFactory = tFactory;
     }
 
     update() {
@@ -152,9 +155,9 @@ class View extends Container {
         });
         this.timer.update();
 
-        this.dayText.setText(`Day ${this.timer.day} / 10`);
-        this.pointsText.setText('0 / 32');
-        this.tasksText.setText('0 / 20');
+        this.dayText.setText(`${this.timer.day} / 10`);
+        this.pointsText.setText(`${this.tFactory.pointsFinished} / 32`);
+        this.tasksText.setText(`${this.tFactory.tasksFinished} / 20`);
 
         if (this.timer.fullDays >= 10) {
             // game over
