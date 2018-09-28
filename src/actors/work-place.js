@@ -1,25 +1,39 @@
 import 'phaser';
 import Worker from './worker';
 import Table from './table';
+import Message from './message';
 
 export default class WorkPlace extends Phaser.GameObjects.Container {
-    constructor(scene, config) {
-        super(scene);
+	constructor(scene, {
+		worker: workerConfig,
+		table: tableConfig,
+		message: messageConfig,
+		x,
+		y
+	}) {
+		super(scene);
 
-        const worker = this.worker = new Worker(scene, config.worker);
-        const table = this.table = new Table(scene, config.table);
+		this.worker = new Worker(scene, workerConfig);
+		this.table = new Table(scene, tableConfig);
+		this.message = new Message(scene, messageConfig);
 
-        this.add(worker);
-        this.add(table);
+		this.add(this.worker);
+		this.add(this.table);
+		this.add(this.message);
 
-        this.setPosition(config.x, config.y);
-    }
+		this.setPosition(x, y);
+	}
 
-    update() {
-        this.worker.update();
-    }
+	showMessage(message) {
+		this.message.showMessage(message);
+	}
 
-    consume(params) {
-        return this.worker.consume(params);
-    }
+	update() {
+		this.message.hideMessage();
+		this.worker.update();
+	}
+
+	consume(params) {
+		return this.worker.consume(params);
+	}
 }
