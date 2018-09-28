@@ -93,6 +93,12 @@ export default class Manager {
 
 	interact(me, slave) {
 		if (this.backpack !== null && slave.consume(this.backpack)) {
+			if (this.backpack instanceof Task) {
+				this.backpack.hide();
+			} else {
+				this.backpack.destroy();
+			}
+
 			this.backpack = null;
 		}
 

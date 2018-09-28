@@ -31,8 +31,13 @@ export default class Task extends Stuff {
         return this._progress;
     }
 
+    hide() {
+        this.sprite.setVisible(false);
+    }
+
     destroy() {
         if (this.parent && !this.complete) {
+            this.sprite.setVisible(true);
             this.parent.returnBack(this);
         } else {
             this.sprite.destroy();
