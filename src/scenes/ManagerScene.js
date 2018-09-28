@@ -38,20 +38,9 @@ export default class ManagerScene extends Phaser.Scene {
 		slave.sprite.body.immovable = true;
 
 		manager.sprite.body.setCollideWorldBounds(true);
-
-		//this.tweens.add({
-		//    targets: logo,
-		//    y: 450,
-		//    duration: 2000,
-		//    ease: 'Power2',
-		//    yoyo: true,
-		//    loop: -1
-		//});
 	}
 
 	update() {
 		manager.update();
-
-		// console.log(cursors.up.isDown, cursors.right.isDown, cursors.down.isDown, cursors.left.isDown);
 	}
 }
