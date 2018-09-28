@@ -1,7 +1,7 @@
 import Factory from '../actors/factory';
 import Task from '../actors/task';
 
-const TICK_IN_DAY = 30000;
+const TICK_IN_DAY = 3000;
 
 export default class TaskFactory extends Factory {
     constructor(scene, x, y) {
