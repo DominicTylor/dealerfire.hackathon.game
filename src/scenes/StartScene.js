@@ -15,7 +15,7 @@ export default class StartScene extends Phaser.Scene {
         this.load.image('coffee', 'assets/coffee.png');
         this.load.image('energy-drink', 'assets/energy.png');
         this.load.image('transparent', 'assets/transparent_tile.png');
-        this.load.image('stone', 'assets/stone.png');
+        this.load.image('task', 'assets/task.png');
         this.load.image('tasks', 'assets/tasks.png');
 
         this.load.image('table4', 'assets/office/table1.png');
@@ -83,14 +83,6 @@ class View extends Phaser.GameObjects.Container {
             this.scene.game.config.height >> 1
         );
         this.add(img);
-
-        const logo = new Phaser.GameObjects.Image(this.scene, 0, 0, 'logo');
-        logo.setPosition(
-            this.scene.game.config.width >> 1,
-            (this.scene.game.config.height >> 1) - 300
-        );
-        logo.setScale(0.8);
-        this.add(logo);
 
         const text = new Phaser.GameObjects.Text(
             this.scene,

@@ -50,12 +50,14 @@ export default class GameScene extends Phaser.Scene {
                 this.wokers--;
 
                 if (!this.wokers) {
-                    this.view.destroy();
-                    this.view = null;
-
                     this.events.off('onSceneEvent', this.sceneEventHandler, this);
 
-                    this.events.emit('onSceneEvent', 'gameFail');
+                    setTimeout(() => {
+                        this.view.destroy();
+                        this.view = null;
+
+                        this.events.emit('onSceneEvent', 'gameFail');
+                    }, 1000);
                 }
                 break;
             }
