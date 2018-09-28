@@ -8,6 +8,5 @@ export default class Hamburger extends Stuff {
 		this.value = 30;
 		this.sprite = scene.physics.add.sprite(x, y, 'hamburger');
 		this.sprite.body.immovable = true;
-		this.sprite.setScale(0.1, 0.1);
 	}
 }

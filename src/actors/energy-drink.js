@@ -8,6 +8,5 @@ export default class EnergyDrink extends Stuff {
 		this.value = 20;
 		this.sprite = scene.physics.add.sprite(x, y, 'energy-drink');
 		this.sprite.body.immovable = true;
-		this.sprite.setScale(0.1, 0.1);
 	}
 }
