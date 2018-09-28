@@ -6,7 +6,6 @@ import StartScene from './scenes/StartScene';
 import GameScene from './scenes/GameScene';
 import SuccessScene from './scenes/SuccessScene';
 import FailScene from './scenes/FailScene';
-import ManagerScene from './scenes/ManagerScene';
 import './scss/style.scss';
 
 const wrapper = document.querySelector('.wrapper');
@@ -23,7 +22,6 @@ const config = {
     },
     scene: [
         Controller,
-		ManagerScene,
         IntroScene,
         StartScene,
         GameScene,
