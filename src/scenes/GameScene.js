@@ -6,6 +6,7 @@ import Manager from '../actors/manager';
 import HamburgerFactory from '../actors/hamburger-factory';
 import EnergyDrinkFactory from '../actors/energy-drink-factory';
 import CoffeeFactory from '../actors/coffee-factory';
+import Timer from '../actors/timer';
 
 const {
     Text,
@@ -90,7 +91,10 @@ class View extends Container {
         const eFactory = new EnergyDrinkFactory(this.scene, 245, 125);
         const cFactory = new CoffeeFactory(this.scene, 425, 125);
 
+        this.shellContainer = new Phaser.GameObjects.Container(this.scene, 0, 640);
+
         this.add(manager.sprite);
+        this.add(this.shellContainer);
 
         this.createWorkPlaces();
         // this.createWorkers();
@@ -106,6 +110,11 @@ class View extends Container {
         this.scene.physics.add.collider(manager.sprite, layer);
 
         manager.sprite.body.setCollideWorldBounds(true);
+
+        this.timer = new Timer({ticksInDay: 300});
+        this.dayText = this.scene.make.text(0, 0, 'ads');
+
+        this.shellContainer.add(this.dayText);
     }
 
     update() {
@@ -113,6 +122,13 @@ class View extends Container {
         this.list.forEach(item => {
             item.update();
         });
+        this.timer.update();
+
+        this.dayText.setText(`Day ${this.timer.day} / 10`);
+
+        if (this.timer.fullDays >= 10) {
+            // game over
+        }
     }
 
     addMapGeo(scene) {
