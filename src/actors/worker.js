@@ -20,9 +20,10 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		this._tempY = y;
 		this._scaleSide = 1;
 		this._loopTime = 0;
-		this._hunger = 100;
+		this._food = 100;
 		this._energy = 100;
-		this._task = 10000;
+		this._task = 0;
+		this._hasTask = false;
 		this._foodLossRate = foodLossRate;
 		this._energyLossRate = energyLossRate;
 		this._state = 'live';
@@ -32,11 +33,9 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	}
 
 	consume({ type, value }) {
-		console.log(type, value)
-
 		switch(type) {
 			case 'food':
-				this._setHungry(value);
+				this._setFood(value);
 
 				return true;
 			case 'coffee':
@@ -45,13 +44,13 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 
 				return true;
 			case 'task': {
-				if (this._task > 0) {
+				if (this._hasTask) {
 					return false;
 				}
 
 				this._setTask(value);
 
-				return false;
+				return true;
 			}
 		}
 	}
@@ -59,10 +58,10 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	update() {
 		switch (this._state) {
 			case 'live': {
-				if (this._task > 0) {
+				if (this._hasTask) {
 					this._normalWorkingAnimation();
 				} else {
-					this._showMessage('notTask');
+					this._showMessage('noTask');
 				}
 
 				this._updateParam();
@@ -70,8 +69,8 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 				break;
 			}
 
-			case 'dead':
-				this._deadAnimation();
+			case 'dying':
+				this._dyingAnimation();
 
 				break;
 		}
@@ -80,15 +79,15 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	}
 
 	_updateParam() {
-		const h = this._hunger;
+		const f = this._food;
 		const e = this._energy;
 		const t = this._task;
 
-		if (h > 0 && e > 0) {
-			if (h > 0) {
-				this._hunger = h - 20 / this._foodLossRate;
+		if (f > 0 && e > 0) {
+			if (f > 0) {
+				this._food = f - 20 / this._foodLossRate;
 
-				if (h < 20) {
+				if (f < 20) {
 					this._showMessage('foodLow');
 				}
 			}
@@ -103,9 +102,12 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 
 			if (t > 0) {
 				--this._task;
+			} else if (this._hasTask) {
+				this._hasTask = false;
+				this._sendTaskDone();
 			}
 		} else {
-			this._state = 'dead';
+			this._state = 'dying';
 		}
 	}
 
@@ -130,16 +132,15 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 		}
 	}
 
-	_showMessage(message) {
-		console.log(`${this._spriteName} ${message}`);
-	}
-
-	_deadAnimation() {
+	_dyingAnimation() {
 		console.log(`${this._spriteName} dead`);
+
+		this._sendWorkerDead();
+		this._state = 'dead';
 	}
 
-	_setHungry(value) {
-		this._hunger = Math.max(value, 100);
+	_setFood(value) {
+		this._food = Math.max(value, 100);
 	}
 
 	_setEnergy(value) {
@@ -147,6 +148,34 @@ export default class Worker extends Phaser.GameObjects.Sprite {
 	}
 
 	_setTask(value) {
+		this._hasTask = true;
 		this._task = value;
+	}
+
+	_showMessage(message) {
+		switch(message) {
+			case 'foodLow':
+				this.parentContainer.showMessage('🍔');
+
+				break;
+
+			case 'energyLow':
+				this.parentContainer.showMessage('⚡');
+
+				break;
+
+			case 'noTask':
+				this.parentContainer.showMessage('📑');
+
+				break;
+		}
+	}
+
+	_sendTaskDone() {
+		this.scene.events.emit('onSceneEvent', 'taskDone');
+	}
+
+	_sendWorkerDead() {
+		this.scene.events.emit('onSceneEvent', 'workerDead');
 	}
 }

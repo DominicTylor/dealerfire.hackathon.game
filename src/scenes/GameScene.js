@@ -19,6 +19,8 @@ export default class GameScene extends Phaser.Scene {
     preload() {
         this.load.image('bg', 'assets/office.png');
         this.load.image('hamburger', 'assets/hamburger.png');
+	    this.load.image('message1', 'assets/messages/message1.png');
+	    this.load.image('message2', 'assets/messages/message2.png');
 
         this.load.image('table4', 'assets/office/table1.png');
         this.load.image('table2', 'assets/office/table2.png');
@@ -70,8 +72,6 @@ class View extends Container {
         this.add(stuff.sprite);
 
         this.createWorkPlaces();
-        // this.createWorkers();
-        // this.createTables();
 
         this.scene.physics.add.collider(manager.sprite, stuff.sprite, () => {
             let burger = new Hamburger(this.scene, manager.sprite.x, manager.sprite.y);
@@ -110,6 +110,16 @@ class View extends Container {
                     }
                 },
 
+	            message: {
+		            x: -46,
+		            y: -128,
+		            spriteName: 'message1',
+		            text: {
+			            x: 0,
+			            y: -11
+		            }
+	            },
+
                 table: {
                     spriteName: 'table1'
                 }
@@ -128,6 +138,16 @@ class View extends Container {
                         energyLossRate: 600
                     }
                 },
+
+	            message: {
+		            x: 54,
+		            y: -130,
+		            spriteName: 'message2',
+		            text: {
+			            x: 2,
+			            y: -11
+		            }
+	            },
 
                 table: {
                     spriteName: 'table2'
@@ -148,6 +168,16 @@ class View extends Container {
                     }
                 },
 
+	            message: {
+		            x: -42,
+		            y: -110,
+		            spriteName: 'message1',
+		            text: {
+			            x: 0,
+			            y: -11
+		            }
+	            },
+
                 table: {
                     spriteName: 'table3'
                 }
@@ -166,6 +196,16 @@ class View extends Container {
                     }
                 },
 
+                message: {
+                    x: 55,
+                    y: -128,
+	                spriteName: 'message2',
+                    text: {
+                        x: 2,
+                        y: -11
+                    }
+                },
+
                 table: {
                     spriteName: 'table4'
                 }
@@ -181,110 +221,6 @@ class View extends Container {
 
             scene.physics.add.collider(manager.sprite, workPlace.table, () => {
                 manager.interact(manager, workPlace);
-            });
-        });
-    }
-
-    createWorkers() {
-        const scene = this.scene;
-        const manager = this.manager;
-
-        let workers = [
-            {
-                x: 110,
-                y: 250,
-                spriteName: 'worker1',
-                width: 50,
-                height: 130,
-                characteristics: {
-                    foodLossRate: 700,
-                    energyLossRate: 400
-                }
-            },
-            {
-                x: 500,
-                y: 250,
-                spriteName: 'worker2',
-                width: 50,
-                height: 130,
-                characteristics: {
-                    foodLossRate: 500,
-                    energyLossRate: 600
-                }
-            },
-            {
-                x: 110,
-                y: 400,
-                spriteName: 'worker3',
-                width: 50,
-                height: 110,
-                characteristics: {
-                    foodLossRate: 300,
-                    energyLossRate: 800
-                }
-            },
-            {
-                x: 500,
-                y: 390,
-                spriteName: 'worker4',
-                width: 50,
-                height: 130,
-                characteristics: {
-                    foodLossRate: 900,
-                    energyLossRate: 200
-                }
-            }
-        ];
-
-        workers.forEach((config) => {
-            config.y += 90;
-
-            const worker = new Worker(scene, config);
-
-            this.add(worker);
-
-            scene.physics.add.collider(manager.sprite, worker, () => {
-                manager.interact(manager, worker);
-            });
-        });
-    }
-
-    createTables() {
-        const scene = this.scene;
-        const manager = this.manager;
-        const tables = [
-            {
-                x: 100,
-                y: 279,
-                spriteName: 'table1'
-            },
-            {
-                x: 500,
-                y: 282,
-                spriteName: 'table2'
-            },
-            {
-                x: 100,
-                y: 430,
-                spriteName: 'table3'
-            },
-            {
-                x: 500,
-                y: 425,
-                spriteName: 'table4'
-            }
-        ];
-
-
-        tables.forEach((config) => {
-            config.y += 90;
-
-            const table = new Table(scene, config);
-
-            this.add(table);
-
-            scene.physics.add.collider(manager.sprite, table, () => {
-                manager.interact(manager, table);
             });
         });
     }
