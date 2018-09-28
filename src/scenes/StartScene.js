@@ -5,21 +5,76 @@ export default class StartScene extends Phaser.Scene {
         super('Start');
     }
 
+    preload() {
+        this.load.image('bg', 'assets/office.png');
+        this.load.image('rip', 'assets/rip.png');
+        this.load.image('hamburger', 'assets/hamburger.png');
+        this.load.image('message1', 'assets/messages/message1.png');
+        this.load.image('message2', 'assets/messages/message2.png');
+        this.load.image('coffee', 'assets/coffee.png');
+        this.load.image('energy-drink', 'assets/energy.png');
+        this.load.image('transparent', 'assets/transparent_tile.png');
+        this.load.image('stone', 'assets/stone.png');
+        this.load.image('tasks', 'assets/tasks.png');
+
+        this.load.image('table4', 'assets/office/table1.png');
+        this.load.image('table2', 'assets/office/table2.png');
+        this.load.image('table3', 'assets/office/table3.png');
+        this.load.image('table1', 'assets/office/table4.png');
+
+        this.load.image('worker1', 'assets/workers/worker1.png');
+        this.load.image('worker2', 'assets/workers/worker2.png');
+        this.load.image('worker3', 'assets/workers/worker3.png');
+        this.load.image('worker4', 'assets/workers/worker4.png');
+
+        this.load.audio('fail', 'assets/audio/fail.mp3');
+        this.load.audio('win', 'assets/audio/win.mp3');
+        this.load.audio('intro', 'assets/audio/intro.mp3');
+        this.load.audio('game', 'assets/audio/game.mp3');
+        this.load.audio('get', 'assets/audio/get.mp3');
+        this.load.audio('drink', 'assets/audio/drink.mp3');
+        this.load.audio('rip', 'assets/audio/rip.mp3');
+        this.load.audio('eat', 'assets/audio/eat.mp3');
+
+        this.load.atlas({
+            key: 'manager',
+            textureURL: 'assets/manager/manager.png',
+            atlasURL: 'assets/manager/manager.json'
+        });
+    }
+
     create() {
-        const view = new View(this);
+        this.view = new View(this);
 
-        this.children.add(view);
+        this.children.add(this.view);
 
-        // TODO
-        setTimeout(() => {
+        this.input.keyboard.on('keyup', this.keyup, this);
+    }
+
+    keyup(e) {
+        if (e.keyCode === Phaser.Input.Keyboard.KeyCodes.ENTER) {
+            this.view.destroy();
+
+            this.view = null;
+
+            this.input.keyboard.off('keyup', this.keyup, this);
+
             this.events.emit('onSceneEvent', 'gameStart');
-        }, 2000);
+        }
     }
 }
 
 class View extends Phaser.GameObjects.Container {
     constructor() {
         super(...arguments);
+
+        const bg = new Phaser.GameObjects.Graphics(this.scene, 0, 0);
+        bg.fillStyle(0xf8f0e5, 1);
+        bg.fillRect(
+            0, 0,
+            this.scene.game.config.width, this.scene.game.config.height
+        );
+        this.add(bg);
 
         const text = new Phaser.GameObjects.Text(
             this.scene,
@@ -37,5 +92,22 @@ class View extends Phaser.GameObjects.Container {
         );
 
         this.add(text);
+
+        const enter = new Phaser.GameObjects.Text(
+            this.scene,
+            0, 0,
+            'Press Enter to continue',
+            {
+                fontSize: 12,
+                fill: '#bbb'
+            }
+        );
+        enter.setOrigin(0.5);
+        enter.setPosition(
+            text.x,
+            text.y + (text.height >> 1) + 10
+        );
+
+        this.add(enter);
     }
 }

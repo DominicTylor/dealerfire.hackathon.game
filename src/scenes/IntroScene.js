@@ -8,18 +8,13 @@ export default class IntroScene extends Phaser.Scene {
         super('Intro');
     }
 
-    preload() {
-        console.log('Intro', 'preload');
-    }
-
     create() {
-        console.log('Intro', 'create');
-
         const view = new View(this);
 
         this.children.add(view);
 
         setTimeout(() => {
+            view.destroy();
             this.scene.start('Start');
         }, 2000);
     }

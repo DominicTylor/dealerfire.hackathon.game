@@ -13,15 +13,13 @@ export default class Controller extends Phaser.Scene {
             'Success',
             'Fail'
         ].forEach((sceneName) => {
-            this.scene.get(sceneName).events.on('onSceneEvent', this.sceneEventHandler.bind(this));
+            this.scene.get(sceneName).events.on('onSceneEvent', this.sceneEventHandler, this);
         });
 
         this.scene.start('Start');
     }
 
     sceneEventHandler(event, data) {
-        console.log('sceneEventHandler', event, data);
-
         switch (event) {
             case 'gameSuccess': {
                 this.scene.start('Success');
@@ -29,7 +27,7 @@ export default class Controller extends Phaser.Scene {
             }
 
             case 'gameFail': {
-                // this.scene.start('Fail');
+                this.scene.start('Fail');
                 break;
             }
 

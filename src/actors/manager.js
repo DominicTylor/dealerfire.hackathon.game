@@ -1,9 +1,10 @@
 import Stuff from './stuff';
 import Task from './task';
+import Config from '../config';
 
 export default class Manager {
 	constructor(scene, x, y) {
-		this._speed = 200;
+		this._speed = Config.MANAGER_SPEED;
 		this.sprite = scene.physics.add.sprite(x, y, 'manager');
 		this.keys = scene.input.keyboard.createCursorKeys();
 		this.backpack = null;

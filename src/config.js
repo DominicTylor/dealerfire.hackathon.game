@@ -1,5 +1,12 @@
 export default {
     WIDTH: 600,
     HEIGHT: 800,
-    FONT_FAMILY: 'Arial'
+    FONT_FAMILY: 'Arial',
+    WORKER_FOOD_DEC: 60,
+    WORKER_ENERGY_DEC: 4,
+    TICK_IN_DAY: 300,
+    MANAGER_SPEED: 400,
+    COFFEE_VALUE: 70,
+    ENERGY_DRINK_VALUE: 50,
+    HAMBURGER_VALUE: 70
 };

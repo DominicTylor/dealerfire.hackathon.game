@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Config from '../config';
 
 export default class Worker extends Phaser.GameObjects.Sprite {
     constructor(scene, {
@@ -102,11 +103,10 @@ export default class Worker extends Phaser.GameObjects.Sprite {
         const f = this._food;
         const e = this._energy;
         const t = this._task;
-        const FOOD_DECREASE = 20;
 
         if (f > 0 && e > 0) {
             if (f > 0) {
-                this._food = f - FOOD_DECREASE / this._foodLossRate;
+                this._food = f - Config.WORKER_FOOD_DEC / this._foodLossRate;
 
                 if (f < 50) {
                     this._showMessage('foodLow');
@@ -114,7 +114,7 @@ export default class Worker extends Phaser.GameObjects.Sprite {
             }
 
             if (e > 0) {
-                this._energy = e - 4 / this._energyLossRate;
+                this._energy = e - Config.WORKER_ENERGY_DEC / this._energyLossRate;
 
                 if (e < 50) {
                     this._showMessage('energyLow');

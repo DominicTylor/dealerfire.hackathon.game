@@ -35,51 +35,13 @@ export default class GameScene extends Phaser.Scene {
         super('Game');
     }
 
-    preload() {
-        this.load.image('bg', 'assets/office.png');
-	    this.load.image('rip', 'assets/rip.png');
-        this.load.image('hamburger', 'assets/hamburger.png');
-	    this.load.image('message1', 'assets/messages/message1.png');
-	    this.load.image('message2', 'assets/messages/message2.png');
-        this.load.image('coffee', 'assets/coffee.png');
-        this.load.image('energy-drink', 'assets/energy.png');
-        this.load.image('transparent', 'assets/transparent_tile.png');
-        this.load.image('stone', 'assets/stone.png');
-	    this.load.image('tasks', 'assets/tasks.png');
-
-        this.load.image('table4', 'assets/office/table1.png');
-        this.load.image('table2', 'assets/office/table2.png');
-        this.load.image('table3', 'assets/office/table3.png');
-        this.load.image('table1', 'assets/office/table4.png');
-
-        this.load.image('worker1', 'assets/workers/worker1.png');
-        this.load.image('worker2', 'assets/workers/worker2.png');
-        this.load.image('worker3', 'assets/workers/worker3.png');
-        this.load.image('worker4', 'assets/workers/worker4.png');
-
-        this.load.audio('fail', 'assets/audio/fail.mp3');
-        this.load.audio('win', 'assets/audio/win.mp3');
-        this.load.audio('intro', 'assets/audio/intro.mp3');
-        this.load.audio('game', 'assets/audio/game.mp3');
-        this.load.audio('get', 'assets/audio/get.mp3');
-        this.load.audio('drink', 'assets/audio/drink.mp3');
-        this.load.audio('rip', 'assets/audio/rip.mp3');
-        this.load.audio('eat', 'assets/audio/eat.mp3');
-
-        this.load.atlas({
-            key: 'manager',
-            textureURL: 'assets/manager/manager.png',
-            atlasURL: 'assets/manager/manager.json'
-        });
-    }
-
     create() {
-        console.log('Game', 'create');
-
         this.view = new View(this);
         this.children.add(this.view);
 
-        this.events.on('onSceneEvent', this.sceneEventHandler.bind(this));
+        this.eventHandler = this.sceneEventHandler.bind(this);
+
+        this.events.on('onSceneEvent', this.eventHandler);
 
         this.wokers = 4;
     }
@@ -87,10 +49,14 @@ export default class GameScene extends Phaser.Scene {
     sceneEventHandler(event, data) {
         switch (event) {
             case 'workerDead': {
-                console.log('workers', this.wokers);
                 this.wokers--;
 
                 if (!this.wokers) {
+                    this.view.destroy();
+                    this.view = null;
+
+                    this.events.off('onSceneEvent', this.eventHandler);
+
                     this.events.emit('onSceneEvent', 'gameFail');
                 }
                 break;
@@ -102,7 +68,9 @@ export default class GameScene extends Phaser.Scene {
     }
 
     update() {
-        this.view.update();
+        if (this.view) {
+            this.view.update();
+        }
     }
 }
 
@@ -169,6 +137,16 @@ class View extends Container {
     }
 
     update() {
+        if (this.tFactory.tasksFinished === 20) {
+            this.scene.events.emit('onSceneEvent', 'gameSuccess');
+            return;
+        }
+
+        if (this.timer.fullDays >= 10) {
+            this.scene.events.emit('onSceneEvent', 'gameFail');
+            return;
+        }
+
         this.manager.update();
         this.list.forEach(item => {
             item.update();
@@ -179,9 +157,6 @@ class View extends Container {
         this.pointsText.setText(`${this.tFactory.pointsFinished} / 32`);
         this.tasksText.setText(`${this.tFactory.tasksFinished} / 20`);
 
-        if (this.timer.fullDays >= 10) {
-            // game over
-        }
     }
 
     addMapGeo(scene) {

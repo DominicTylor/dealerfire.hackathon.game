@@ -61,8 +61,6 @@ export default class TaskFactory extends Factory {
     }
 
     produce(scene) {
-        console.log('produce', this.tasks.length);
-
         return this.tasks.pop();
     }
 
@@ -71,7 +69,5 @@ export default class TaskFactory extends Factory {
         task.sprite.y = this.sprite.y;
 
         this.tasks.push(task);
-
-        console.log('returnBack', this.tasks.length);
     }
 }
