@@ -5,6 +5,19 @@ export default class FailScene extends Phaser.Scene {
         super('Fail');
     }
 
+    preload() {
+        this.load.atlas({
+            key: 'sleeping',
+            textureURL: 'assets/manager/sleeping.png',
+            atlasURL: 'assets/manager/sleeping.json'
+        });
+        this.load.atlas({
+            key: 'trash',
+            textureURL: 'assets/manager/trash_can.png',
+            atlasURL: 'assets/manager/trash_can.json'
+        });
+    }
+
     create() {
         this.view = new View(this);
 
@@ -28,6 +41,10 @@ export default class FailScene extends Phaser.Scene {
             this.events.emit('onSceneEvent', 'gameRetry');
         }
     }
+
+    update() {
+        this.view.update();
+    }
 }
 
 class View extends Phaser.GameObjects.Container {
@@ -41,6 +58,50 @@ class View extends Phaser.GameObjects.Container {
             this.scene.game.config.width, this.scene.game.config.height
         );
         this.add(bg);
+
+        this.scene.anims.create({
+            key: 'sleep',
+            frames: [{
+                key: 'sleeping',
+                frame: 'sleeping_1',
+                duration: 5
+            }, {
+                key: 'sleeping',
+                frame: 'sleeping_2',
+                duration: 5
+            }, {
+                key: 'sleeping',
+                frame: 'sleeping_3',
+                duration: 5
+            }],
+            frameRate: 1,
+            repeat: -1
+        });
+
+        this.scene.anims.create({
+            key: 'stink',
+            frames: [{
+                key: 'trash',
+                frame: 'trash_1',
+                duration: 500
+            }, {
+                key: 'trash',
+                frame: 'trash_2',
+                duration: 500
+            }],
+            frameRate: 5,
+            repeat: -1
+        });
+
+        let trashCan = this.scene.add.sprite(0, 0).setOrigin(0, 0);
+        let manager = this.scene.add.sprite(0, 0).setOrigin(0, 0);
+
+        trashCan.anims.play('stink');
+        manager.anims.play('sleep');
+
+        trashCan.setAlpha(0);
+
+        this.trashCan = trashCan;
 
         const text = new Phaser.GameObjects.Text(
             this.scene,
@@ -75,5 +136,11 @@ class View extends Phaser.GameObjects.Container {
         );
 
         this.add(enter);
+    }
+
+    update() {
+        if (this.trashCan.alpha < 1) {
+            this.trashCan.setAlpha(this.trashCan.alpha + 0.002);
+        }
     }
 }

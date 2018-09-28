@@ -5,6 +5,14 @@ export default class SuccessScene extends Phaser.Scene {
         super('Success');
     }
 
+    preload() {
+        this.load.atlas({
+            key: 'sleeping',
+            textureURL: 'assets/manager/sleeping.png',
+            atlasURL: 'assets/manager/sleeping.json'
+        });
+    }
+
     create() {
         this.view = new View(this);
 
@@ -41,6 +49,30 @@ class View extends Phaser.GameObjects.Container {
             this.scene.game.config.width, this.scene.game.config.height
         );
         this.add(bg);
+
+
+        this.scene.anims.create({
+            key: 'sleep',
+            frames: [{
+                key: 'sleeping',
+                frame: 'sleeping_1',
+                duration: 5
+            }, {
+                key: 'sleeping',
+                frame: 'sleeping_2',
+                duration: 5
+            }, {
+                key: 'sleeping',
+                frame: 'sleeping_3',
+                duration: 5
+            }],
+            frameRate: 1,
+            repeat: -1
+        });
+
+        let manager = this.scene.add.sprite(0, 0).setOrigin(0, 0);
+
+        manager.anims.play('sleep');
 
         const text = new Phaser.GameObjects.Text(
             this.scene,
