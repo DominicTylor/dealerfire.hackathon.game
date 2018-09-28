@@ -53,6 +53,9 @@ export default class TaskFactory extends Factory {
     }
 
     returnBack(task) {
+        task.sprite.x = this.sprite.x;
+        task.sprite.y = this.sprite.y;
+
         this.currentTaskIndex--;
     }
 }
