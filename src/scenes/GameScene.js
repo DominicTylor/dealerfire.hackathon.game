@@ -64,12 +64,6 @@ export default class GameScene extends Phaser.Scene {
 
         this.view = new View(this);
         this.children.add(this.view);
-
-        // TODO
-        // setTimeout(() => {
-        //     this.events.emit('onSceneEvent', 'Game', 'transition');
-        //     this.scene.start(Math.random() - 0.5 > 0 ? 'Success' : 'Fail');
-        // }, 2000);
     }
 
     update() {
@@ -93,8 +87,6 @@ class View extends Container {
         this.add(manager.sprite);
 
         this.createWorkPlaces();
-        // this.createWorkers();
-        // this.createTables();
 
         this.scene.physics.add.collider(manager.sprite, hFactory.sprite, () => this.collideFactory(manager, hFactory));
         this.scene.physics.add.collider(manager.sprite, eFactory.sprite, () => this.collideFactory(manager, eFactory));
@@ -238,110 +230,6 @@ class View extends Container {
 
             scene.physics.add.collider(manager.sprite, workPlace.table, () => {
                 manager.interact(manager, workPlace);
-            });
-        });
-    }
-
-    createWorkers() {
-        const scene = this.scene;
-        const manager = this.manager;
-
-        let workers = [
-            {
-                x: 110,
-                y: 250,
-                spriteName: 'worker1',
-                width: 50,
-                height: 130,
-                characteristics: {
-                    foodLossRate: 700,
-                    energyLossRate: 400
-                }
-            },
-            {
-                x: 500,
-                y: 250,
-                spriteName: 'worker2',
-                width: 50,
-                height: 130,
-                characteristics: {
-                    foodLossRate: 500,
-                    energyLossRate: 600
-                }
-            },
-            {
-                x: 110,
-                y: 400,
-                spriteName: 'worker3',
-                width: 50,
-                height: 110,
-                characteristics: {
-                    foodLossRate: 300,
-                    energyLossRate: 800
-                }
-            },
-            {
-                x: 500,
-                y: 390,
-                spriteName: 'worker4',
-                width: 50,
-                height: 130,
-                characteristics: {
-                    foodLossRate: 900,
-                    energyLossRate: 200
-                }
-            }
-        ];
-
-        workers.forEach((config) => {
-            config.y += 90;
-
-            const worker = new Worker(scene, config);
-
-            this.add(worker);
-
-            scene.physics.add.collider(manager.sprite, worker, () => {
-                manager.interact(manager, worker);
-            });
-        });
-    }
-
-    createTables() {
-        const scene = this.scene;
-        const manager = this.manager;
-        const tables = [
-            {
-                x: 100,
-                y: 279,
-                spriteName: 'table1'
-            },
-            {
-                x: 500,
-                y: 282,
-                spriteName: 'table2'
-            },
-            {
-                x: 100,
-                y: 430,
-                spriteName: 'table3'
-            },
-            {
-                x: 500,
-                y: 425,
-                spriteName: 'table4'
-            }
-        ];
-
-
-        tables.forEach((config) => {
-            config.y += 90;
-
-            const table = new Table(scene, config);
-
-            this.add(table);
-
-            scene.physics.add.collider(manager.sprite, table, () => {
-                manager.interact(manager, table);
             });
         });
     }
